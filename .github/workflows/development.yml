@@ -1,0 +1,29 @@
+name: Development
+
+on:
+  push:
+    branches: [development]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - uses: actions/setup-node@v1
+        with:
+          node-version: 16
+
+      - run: npm ci
+
+      - run: npm run compile:dev
+
+      - run: ./publish.sh
+        env:
+          AZURE_DEVOPS_EXT_PAT: ${{ secrets.PAT_MARKETPLACE }}
+
+      - uses: actions/upload-artifact@v2
+        with:
+          name: VSIX
+          path: out/*.vsix

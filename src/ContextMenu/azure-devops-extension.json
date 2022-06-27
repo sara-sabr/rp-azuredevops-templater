@@ -1,0 +1,20 @@
+{
+  "contributions": [
+    {
+      "id": "rp-azuredevops-ContextExtension",
+      "type": "ms.vss-web.action",
+      "description": "Adding a new option into the context menu",
+      "targets": ["ms.vss-work-web.work-item-toolbar-menu"],
+      "properties": {
+        "name": "ContextExtension",
+        "uri": "dist/ContextExtension/ContextExtension.html",
+        "order": 100,
+        "icon": {
+          "dark": "dist/static/img/ContextExtension.png",
+          "light": "dist/static/img/ContextExtension.png"
+        },
+        "registeredObjectId": "Context-Add-Template"
+      }
+    }
+  ]
+}

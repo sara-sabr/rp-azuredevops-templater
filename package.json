@@ -1,0 +1,52 @@
+{
+  "name": "ContextExtension",
+  "description": "Azure Boards IT Research and Prototyping Reports",
+  "author": "ESDC IT RP",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/sara-sabr/ContextExtension"
+  },
+  "scripts": {
+    "clean": "rimraf ./dist ./out",
+    "lint": "eslint --fix src/**/*.{js,jsx,ts,tsx}",
+    "compile": "npm run clean && webpack --mode production",
+    "compile:dev": "npm run clean && webpack --mode development --config webpack.dev.config.js",
+    "package": "npm run compile && tfx extension create --manifest-globs azure-devops-extension.json src/**/azure-devops-extension.json --overrides-file configs/release.json --output-path out",
+    "package:dev": "npm run compile:dev && tfx extension create --manifest-globs azure-devops-extension.json src/**/azure-devops-extension.json --overrides-file configs/dev.json --output-path out",
+    "publish": "npm run compile && tfx extension publish --manifest-globs azure-devops-extension.json src/**/azure-devops-extension.json --overrides-file configs/release.json --output-path out",
+    "publish:dev": "npm run compile:dev && tfx extension publish --manifest-globs azure-devops-extension.json src/**/azure-devops-extension.json --overrides-file configs/dev.json --output-path out",
+    "start:dev": "webpack-dev-server --mode development --config webpack.dev.config.js"
+  },
+  "dependencies": {
+    "@esdc-it-rp/azuredevops-common": "^1.0.18",
+    "@fluentui/react": "^8.48.1",
+    "azure-devops-extension-api": "^1.158.0",
+    "azure-devops-extension-sdk": "^2.0.11",
+    "azure-devops-ui": "^1.160.4",
+    "vss-web-extension-sdk": "^5.141.0"
+  },
+  "devDependencies": {
+    "@types/react": "^17.0.38",
+    "@typescript-eslint/eslint-plugin": "^5.8.1",
+    "@typescript-eslint/parser": "^5.8.1",
+    "base64-inline-loader": "^2.0.1",
+    "copy-webpack-plugin": "^10.2.0",
+    "css-loader": "^6.5.1",
+    "eslint": "^8.5.0",
+    "eslint-config-prettier": "^8.3.0",
+    "eslint-plugin-prettier": "^4.0.0",
+    "file-loader": "^6.2.0",
+    "node-sass": "^7.0.1",
+    "prettier": "^2.5.1",
+    "rimraf": "^2.7.1",
+    "sass-loader": "^12.4.0",
+    "style-loader": "^3.3.1",
+    "tfx-cli": "^0.11.0",
+    "ts-loader": "^9.2.6",
+    "typescript": "^4.5.4",
+    "webpack": "^5.65.0",
+    "webpack-cli": "^4.9.1",
+    "webpack-dev-server": "^4.7.1"
+  }
+}
