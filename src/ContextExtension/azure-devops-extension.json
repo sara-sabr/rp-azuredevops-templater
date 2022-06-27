@@ -1,12 +1,13 @@
 {
   "contributions": [
     {
-      "id": "rp-azuredevops-ContextExtension",
+      "id": "rp-azuredevops-contextextension",
       "type": "ms.vss-web.action",
       "description": "Adding a new option into the context menu",
-      "targets": ["ms.vss-work-web.work-item-toolbar-menu"],
+      "targets": ["ms.vss-work-web.work-item-context-menu"],
       "properties": {
-        "name": "ContextExtension",
+        "text": "Tree Planting",
+        "title": "ContextExtension",
         "uri": "dist/ContextExtension/ContextExtension.html",
         "order": 100,
         "icon": {

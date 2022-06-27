@@ -1,0 +1,9 @@
+{
+    "id": "clonepanel",
+    "type": "ms.vss-web.control",
+    "description": "The content to be displayed in the dialog",
+    "targets": [],
+    "properties": {
+        "uri": "ClonePanel.html"
+    }
+}
