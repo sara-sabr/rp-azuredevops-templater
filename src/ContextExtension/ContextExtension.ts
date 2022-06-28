@@ -18,7 +18,7 @@ SDK.register("Context-Add-Template", () => {
         CommonServiceIds.HostPageLayoutService
       );
 
-      dialogService.openCustomDialog<ICloneDialogState>(        
+      dialogService.openCustomDialog<ICloneDialogState>(
         SDK.getExtensionContext().id + "." + CloneDialog.REL_CONTRIBUTION_ID,
         {
           title: "Template Clone",

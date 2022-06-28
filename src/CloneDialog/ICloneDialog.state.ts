@@ -1,4 +1,6 @@
 /**
  * State storage
  */
-interface ICloneDialogState {}
+interface ICloneDialogState {
+    screenNumber:number;
+}
