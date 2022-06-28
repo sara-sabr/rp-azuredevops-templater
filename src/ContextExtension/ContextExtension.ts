@@ -1,22 +1,35 @@
-import "es6-promise/auto";
+import {
+  CommonServiceIds,
+  IHostPageLayoutService,
+} from "azure-devops-extension-api";
 import * as SDK from "azure-devops-extension-sdk";
-import { CommonServiceIds, getClient, IHostPageLayoutService } from "azure-devops-extension-api";
-import { BuildDefinition, BuildRestClient } from "azure-devops-extension-api/Build";
-import * as React from "react";
-import { Button } from "azure-devops-ui/Button";
-import { Panel } from "azure-devops-ui/Panel";
+import { CloneDialog } from "../CloneDialog/CloneDialog";
 
 SDK.register("Context-Add-Template", () => {
-    return {
-        execute: async (context: any) => {
-            let selectedIds: number[]=context.workItemIds;
-            // if length = 1, show the window. Otherwise, no window.
-            if (context.workItemIds.length==1) {
-                
-            }
-            console.log(selectedIds);
-        }
-    }
-});
+  return {
+    execute: async (context: any) => {
+      let selectedIds: number[] = context.workItemIds;
 
-SDK.init();
+      // TODO: Only allow length of 1 array
+      //  < 1 or > 1 Show error
+      //  = 1 Show Window
+
+      const dialogService = await SDK.getService<IHostPageLayoutService>(
+        CommonServiceIds.HostPageLayoutService
+      );
+
+      dialogService.openCustomDialog<ICloneDialogState>(        
+        SDK.getExtensionContext().id + "." + CloneDialog.REL_CONTRIBUTION_ID,
+        {
+          title: "Template Clone",
+          // Options
+          onClose: (result) => {
+            if (result !== undefined) {
+              // TODO: Highlight the created entry
+            }
+          },
+        }
+      );
+    },
+  };
+});

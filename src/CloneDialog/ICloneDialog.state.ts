@@ -1,0 +1,4 @@
+/**
+ * State storage
+ */
+interface ICloneDialogState {}

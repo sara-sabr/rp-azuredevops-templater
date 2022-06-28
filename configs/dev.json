@@ -2,5 +2,5 @@
   "id": "rp-azuredevops-templater-dev",
   "public": false,
   "baseUri": "https://localhost:3000",
-  "name": "ContextExtension - Development"
+  "name": "AzBoards Templater - Development"
 }

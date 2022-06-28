@@ -1,0 +1,8 @@
+
+ul.bullet {
+    padding-left: revert;
+}
+
+ul.bullet > li {
+    list-style: inherit;
+}

@@ -1,0 +1,13 @@
+{
+    "contributions": [
+        {
+            "id": "clone-template-dialog-wizard",
+            "type": "ms.vss-web.external-content",
+            "description": "The content panel for the selection of a work item to copy",
+            "targets":[],
+            "properties": {
+                "uri": "dist/CloneDialog/CloneDialog.html"
+            }
+        }
+    ]
+}

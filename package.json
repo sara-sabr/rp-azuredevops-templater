@@ -5,7 +5,7 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/sara-sabr/ContextExtension"
+    "url": "https://github.com/sara-sabr/rp-azuredevops-templater"
   },
   "scripts": {
     "clean": "rimraf ./dist ./out",
@@ -23,11 +23,11 @@
     "@fluentui/react": "^8.48.1",
     "azure-devops-extension-api": "^1.158.0",
     "azure-devops-extension-sdk": "^2.0.11",
-    "azure-devops-ui": "^1.160.4",
-    "vss-web-extension-sdk": "^5.141.0"
+    "azure-devops-ui": "^2.167.1"
   },
   "devDependencies": {
-    "@types/react": "^17.0.38",
+    "@types/react": "^17.0.2",
+    "@types/react-dom": "^17.0.1",
     "@typescript-eslint/eslint-plugin": "^5.8.1",
     "@typescript-eslint/parser": "^5.8.1",
     "base64-inline-loader": "^2.0.1",
