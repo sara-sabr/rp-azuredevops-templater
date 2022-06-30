@@ -9,6 +9,13 @@ import * as SDK from "azure-devops-extension-sdk";
 import { Button } from "azure-devops-ui/Button";
 import { ButtonGroup } from "azure-devops-ui/ButtonGroup";
 
+import { ObservableValue } from "azure-devops-ui/Core/Observable";
+import { Checkbox } from "azure-devops-ui/Checkbox";
+
+const copyCheckbox = new ObservableValue<boolean>(false);
+const replaceCheckbox = new ObservableValue<boolean>(false);
+const unassignCheckbox = new ObservableValue<boolean>(false);
+
 export class CloneDialog extends React.Component<{}, ICloneDialogState> {
   /**
    * Relative extension ID without the [publisher].[extensionid] prefix.
@@ -40,14 +47,40 @@ export class CloneDialog extends React.Component<{}, ICloneDialogState> {
           // 2. Move the button bar to the bottom (Hint CSS classname)
           // 3. On click of the Next button, it should NOT dismiss but update the screen number to 2.
         }
-        <ButtonGroup className="">
-          <Button
-            primary={true}
-            text="Next"
-            onClick={() => this.dismiss(true)}
+        <div className="rhythm-vertical-8 flex-column">
+          <Checkbox
+          onChange={(event, checked) => (copyCheckbox.value = checked)}
+          checked={copyCheckbox}
+          label="Copy Hierarchy"
           />
-          <Button text="Cancel" onClick={() => this.dismiss(false)} />
-        </ButtonGroup>
+        </div>
+        
+        <div>
+          <Checkbox
+            onChange={(event, checked) => (replaceCheckbox.value = checked)}
+            checked={replaceCheckbox}
+            label="Replace Text"
+          />
+        </div>
+
+        <div>
+          <Checkbox
+            onChange={(event, checked) => (unassignCheckbox.value = checked)}
+            checked={unassignCheckbox}
+            label="Unassign All"
+          />
+        </div>
+
+        <div className="btn-right">
+          <ButtonGroup className="btn btn-primary">
+            <Button
+              primary={true}
+              text="Next"
+              onClick={() => this.dismiss(true)}
+            />
+            <Button text="Cancel" onClick={() => this.dismiss(false)} />
+          </ButtonGroup>
+        </div>
       </div>
     );
   }

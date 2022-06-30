@@ -8,28 +8,32 @@ import { CloneDialog } from "../CloneDialog/CloneDialog";
 SDK.register("Context-Add-Template", () => {
   return {
     execute: async (context: any) => {
-      let selectedIds: number[] = context.workItemIds;
+      let selectedItem: number = context.workItemIds.length;
 
-      // TODO: Only allow length of 1 array
-      //  < 1 or > 1 Show error
-      //  = 1 Show Window
+            //  < 1 or > 1 Show error
+            //  = 1 Show Window
+      if (selectedItem != 1) {
+        alert("Error, cannot select more than one item at a time");
+      }
 
-      const dialogService = await SDK.getService<IHostPageLayoutService>(
-        CommonServiceIds.HostPageLayoutService
-      );
+      if (selectedItem == 1) {
+        const dialogService = await SDK.getService<IHostPageLayoutService>(
+          CommonServiceIds.HostPageLayoutService
+        );
 
-      dialogService.openCustomDialog<ICloneDialogState>(
-        SDK.getExtensionContext().id + "." + CloneDialog.REL_CONTRIBUTION_ID,
-        {
-          title: "Template Clone",
-          // Options
-          onClose: (result) => {
-            if (result !== undefined) {
-              // TODO: Highlight the created entry
-            }
-          },
-        }
-      );
+        dialogService.openCustomDialog<ICloneDialogState>(
+          SDK.getExtensionContext().id + "." + CloneDialog.REL_CONTRIBUTION_ID,
+          {
+            title: "Template Clone",
+            // Options
+            onClose: (result) => {
+              if (result !== undefined) {
+                // TODO: Highlight the created entry
+              }
+            },
+          }
+        );
+      }
     },
   };
 });
