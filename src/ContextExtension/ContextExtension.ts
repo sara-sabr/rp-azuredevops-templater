@@ -25,6 +25,7 @@ SDK.register("Context-Add-Template", () => {
           SDK.getExtensionContext().id + "." + CloneDialog.REL_CONTRIBUTION_ID,
           {
             title: "Template Clone",
+            configuration: {height: 1000},
             // Options
             onClose: (result) => {
               if (result !== undefined) {
