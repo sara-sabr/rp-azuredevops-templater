@@ -12,9 +12,20 @@ import { ButtonGroup } from "azure-devops-ui/ButtonGroup";
 import { ObservableValue } from "azure-devops-ui/Core/Observable";
 import { Checkbox } from "azure-devops-ui/Checkbox";
 
+import { TextField, TextFieldWidth } from "azure-devops-ui/TextField";
+import { FormItem } from "azure-devops-ui/FormItem";
+
 const copyCheckbox = new ObservableValue<boolean>(false);
 const replaceCheckbox = new ObservableValue<boolean>(false);
 const unassignCheckbox = new ObservableValue<boolean>(false);
+
+const findObservable1 = new ObservableValue<string>("");
+const findObservable2 = new ObservableValue<string>("");
+const findObservable3 = new ObservableValue<string>("");
+
+const replaceObservable1 = new ObservableValue<string>("");
+const replaceObservable2 = new ObservableValue<string>("");
+const replaceObservable3 = new ObservableValue<string>("");
 
 export class CloneDialog extends React.Component<{}, ICloneDialogState> {
   /**
@@ -26,11 +37,14 @@ export class CloneDialog extends React.Component<{}, ICloneDialogState> {
     super(props);
     this.state = {
       screenNumber: 1,
+      width: 1000,
+      height: 1000,
     };
   }
 
   public componentDidMount() {
     SDK.init();
+    //SDK.resize(1000, 1000);
   }
 
   /**
@@ -53,17 +67,35 @@ export class CloneDialog extends React.Component<{}, ICloneDialogState> {
           checked={copyCheckbox}
           label="Copy Hierarchy"
           />
-        </div>
-        
-        <div>
+
           <Checkbox
             onChange={(event, checked) => (replaceCheckbox.value = checked)}
             checked={replaceCheckbox}
             label="Replace Text"
           />
-        </div>
 
-        <div>
+          <FormItem label="Find Text">
+            <TextField
+              prefixIconProps={{
+                render: className => <span className={className}>hello</span>
+              }}
+              onChange={(e, newValue) => (findObservable1.value = newValue)}
+              width={TextFieldWidth.standard}
+            />
+
+            <TextField
+              value="Hello"
+              onChange={(e, newValue) => (findObservable2.value = newValue)}
+              width={TextFieldWidth.standard}
+            />
+
+            <TextField
+              value="HELLO"
+              onChange={(e, newValue) => (findObservable3.value = newValue)}
+              width={TextFieldWidth.standard}
+            />
+          </FormItem>
+
           <Checkbox
             onChange={(event, checked) => (unassignCheckbox.value = checked)}
             checked={unassignCheckbox}
@@ -71,12 +103,36 @@ export class CloneDialog extends React.Component<{}, ICloneDialogState> {
           />
         </div>
 
-        <div className="btn-right">
+        <div className="rhythm-vertical-8 flex-column">
+          <FormItem label="Replace Text">
+            <TextField
+              prefixIconProps={{
+                render: className => <span className={className}>hi there</span>
+              }}
+              onChange={(e, newValue) => (replaceObservable1.value = newValue)}
+              width={TextFieldWidth.standard}
+            />
+
+            <TextField
+              value="Hi There"
+              onChange={(e, newValue) => (replaceObservable2.value = newValue)}
+              width={TextFieldWidth.standard}
+            />
+
+            <TextField
+              value="HI THERE"
+              onChange={(e, newValue) => (replaceObservable3.value = newValue)}
+              width={TextFieldWidth.standard}
+            />
+          </FormItem>
+        </div>
+
+        <div className="bottom">
           <ButtonGroup className="btn btn-primary">
             <Button
               primary={true}
               text="Next"
-              onClick={() => this.dismiss(true)}
+              onClick={() => this.state.screenNumber == 2}
             />
             <Button text="Cancel" onClick={() => this.dismiss(false)} />
           </ButtonGroup>
@@ -115,7 +171,7 @@ export class CloneDialog extends React.Component<{}, ICloneDialogState> {
 
   public render(): JSX.Element {
     return (
-      <div className="flex-column flex-grow">
+      <div className="flex-column flex-grow" style={{width: "500px", height: "500px"}}>
         {this.state.screenNumber === 1 && this.renderScreenInitial()}
         {this.state.screenNumber === 2 && this.renderScreenProgress()}
       </div>
