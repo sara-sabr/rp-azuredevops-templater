@@ -1,6 +1,8 @@
+import { Panel } from "@fluentui/react";
 import {
   CommonServiceIds,
   IHostPageLayoutService,
+  PanelSize,
 } from "azure-devops-extension-api";
 import * as SDK from "azure-devops-extension-sdk";
 import { CloneDialog } from "../CloneDialog/CloneDialog";
@@ -21,11 +23,11 @@ SDK.register("Context-Add-Template", () => {
           CommonServiceIds.HostPageLayoutService
         );
 
-        dialogService.openCustomDialog<ICloneDialogState>(
+        dialogService.openPanel<ICloneDialogState>(
           SDK.getExtensionContext().id + "." + CloneDialog.REL_CONTRIBUTION_ID,
           {
             title: "Template Clone",
-            configuration: {height: 1000},
+            size: PanelSize.Large,
             // Options
             onClose: (result) => {
               if (result !== undefined) {

@@ -73,61 +73,60 @@ export class CloneDialog extends React.Component<{}, ICloneDialogState> {
             checked={replaceCheckbox}
             label="Replace Text"
           />
+        </div>
 
+        <div className='parent'>
           <FormItem label="Find Text">
             <TextField
               prefixIconProps={{
                 render: className => <span className={className}>hello</span>
               }}
               onChange={(e, newValue) => (findObservable1.value = newValue)}
-              width={TextFieldWidth.standard}
+              width={TextFieldWidth.auto}
             />
 
             <TextField
               value="Hello"
               onChange={(e, newValue) => (findObservable2.value = newValue)}
-              width={TextFieldWidth.standard}
+              width={TextFieldWidth.auto}
             />
 
             <TextField
-              value="HELLO"
               onChange={(e, newValue) => (findObservable3.value = newValue)}
-              width={TextFieldWidth.standard}
+              placeholder="HELLO"
+              width={TextFieldWidth.auto}
             />
           </FormItem>
 
-          <Checkbox
-            onChange={(event, checked) => (unassignCheckbox.value = checked)}
-            checked={unassignCheckbox}
-            label="Unassign All"
-          />
-        </div>
-
-        <div className="rhythm-vertical-8 flex-column">
           <FormItem label="Replace Text">
             <TextField
               prefixIconProps={{
                 render: className => <span className={className}>hi there</span>
               }}
               onChange={(e, newValue) => (replaceObservable1.value = newValue)}
-              width={TextFieldWidth.standard}
+              width={TextFieldWidth.auto}
             />
 
             <TextField
               value="Hi There"
               onChange={(e, newValue) => (replaceObservable2.value = newValue)}
-              width={TextFieldWidth.standard}
+              width={TextFieldWidth.auto}
             />
 
             <TextField
               value="HI THERE"
               onChange={(e, newValue) => (replaceObservable3.value = newValue)}
-              width={TextFieldWidth.standard}
+              width={TextFieldWidth.auto}
             />
           </FormItem>
         </div>
 
-        <div className="bottom">
+        <div>
+          <Checkbox
+            onChange={(event, checked) => (unassignCheckbox.value = checked)}
+            checked={unassignCheckbox}
+            label="Unassign All"
+          />
           <ButtonGroup className="btn btn-primary">
             <Button
               primary={true}
