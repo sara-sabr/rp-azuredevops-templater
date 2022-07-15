@@ -15,6 +15,13 @@ import { Checkbox } from "azure-devops-ui/Checkbox";
 import { TextField, TextFieldWidth } from "azure-devops-ui/TextField";
 import { FormItem } from "azure-devops-ui/FormItem";
 
+import ProgressBar from "@ramonak/react-progress-bar"
+
+/**
+ * Following variables that are associated with the various checkboxes
+ * and text boxes in the design.
+ */
+
 const copyCheckbox = new ObservableValue<boolean>(false);
 const replaceCheckbox = new ObservableValue<boolean>(false);
 const unassignCheckbox = new ObservableValue<boolean>(false);
@@ -61,11 +68,20 @@ export class CloneDialog extends React.Component<{}, ICloneDialogState> {
           // 2. Move the button bar to the bottom (Hint CSS classname)
           // 3. On click of the Next button, it should NOT dismiss but update the screen number to 2.
         }
+        
+        {/* In the following divs, we have separated all the different checkboxes
+        and the textboxes to be filled. In the checkboxes, we have onChange functions'
+        but they are not yet to be used and shall only be used in the backend programming
+        section. 
+        In the classnames, we are using the special conditions that align the different
+        items on the screen.
+        */}
+
         <div className="rhythm-vertical-8 flex-column">
           <Checkbox
-          onChange={(event, checked) => (copyCheckbox.value = checked)}
-          checked={copyCheckbox}
-          label="Copy Hierarchy"
+            onChange={(event, checked) => (copyCheckbox.value = checked)}
+            checked={copyCheckbox}
+            label="Copy Hierarchy"
           />
 
           <Checkbox
@@ -131,7 +147,7 @@ export class CloneDialog extends React.Component<{}, ICloneDialogState> {
             <Button
               primary={true}
               text="Next"
-              onClick={() => this.state.screenNumber == 2}
+              onClick={() => this.setState({screenNumber: 2}) }
             />
             <Button text="Cancel" onClick={() => this.dismiss(false)} />
           </ButtonGroup>
@@ -144,7 +160,7 @@ export class CloneDialog extends React.Component<{}, ICloneDialogState> {
    * Progress screen.
    *
    * @returns JSX element
-   */
+   */ 
   public renderScreenProgress(): JSX.Element {
     return (
       <div>
@@ -156,6 +172,16 @@ export class CloneDialog extends React.Component<{}, ICloneDialogState> {
           // 3. On click of the Next button, it should dismiss only when the progress is complete, button should be disabled till it is.
           // 4. If cancel is clicked, it should stop the current activity.
         }
+
+        {/* For the progress bar, we are using a different module
+        and can be found in this link: 
+        https://www.npmjs.com/package/@ramonak/react-progress-bar */}
+
+        <ProgressBar 
+          completed={60}
+          labelClassName="Copying stuff"
+        />
+        
         <ButtonGroup className="">
           <Button
             primary={true}

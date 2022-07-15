@@ -1,4 +1,4 @@
-import { Panel } from "@fluentui/react";
+//import { Panel } from "@fluentui/react";
 import {
   CommonServiceIds,
   IHostPageLayoutService,
@@ -10,10 +10,14 @@ import { CloneDialog } from "../CloneDialog/CloneDialog";
 SDK.register("Context-Add-Template", () => {
   return {
     execute: async (context: any) => {
+      /**
+       * When selecting Work Items to copy, we want the user to only select
+       * the parent item. All children items underneath the parent will be copied
+       * without having to directly copy them as well.
+       */
+      
       let selectedItem: number = context.workItemIds.length;
 
-            //  < 1 or > 1 Show error
-            //  = 1 Show Window
       if (selectedItem != 1) {
         alert("Error, cannot select more than one item at a time");
       }
@@ -27,7 +31,6 @@ SDK.register("Context-Add-Template", () => {
           SDK.getExtensionContext().id + "." + CloneDialog.REL_CONTRIBUTION_ID,
           {
             title: "Template Clone",
-            size: PanelSize.Large,
             // Options
             onClose: (result) => {
               if (result !== undefined) {

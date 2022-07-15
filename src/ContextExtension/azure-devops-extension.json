@@ -6,7 +6,7 @@
       "description": "Adding a new option into the context menu",
       "targets": ["ms.vss-work-web.work-item-context-menu"],
       "properties": {
-        "text": "Tree Planting",
+        "text": "Copy Template",
         "title": "ContextExtension",
         "uri": "dist/ContextExtension/ContextExtension.html",
         "order": 100,
