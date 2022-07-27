@@ -31,6 +31,7 @@ SDK.register("Context-Add-Template", () => {
           SDK.getExtensionContext().id + "." + CloneDialog.REL_CONTRIBUTION_ID,
           {
             title: "Template Clone",
+            size: PanelSize.Large,
             // Options
             onClose: (result) => {
               if (result !== undefined) {
