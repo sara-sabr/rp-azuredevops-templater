@@ -85,13 +85,20 @@ sequenceDiagram
         TemplateWorkItemService->>WorkItemTrackingRestClient: Azure Devops API workitemsbatch
         loop results
           TemplateWorkItemService->>TemplateWorkItemService: applySettings()
+          Note right of TemplateWorkItemService: Apply all requested settings to the work item (replacement, unassignment, etc...)
           activate TemplateWorkItemService        
           Note right of TemplateWorkItemService: Clear out ID to create a new item
+          Note right of TemplateWorkItemService: Clear out the relationship (to be done later)
           TemplateWorkItemService->>WorkItemTrackingRestClient: Azure DevOps API create
+          Note right of TemplateWorkItemService: Save mapping of source ID to created ID
           TemplateWorkItemService->>CloneDialog: updateProgress()
           deactivate TemplateWorkItemService
         end
-      
+        loop result
+          Note right of TemplateWorkItemService: Based off sourec, remake the new relationships by consulting the map above
+          TemplateWorkItemService->>WorkItemTrackingRestClient: Azure DevOps API update
+          TemplateWorkItemService->>CloneDialog: updateProgress()
+        end                                
     end
     
 ```
