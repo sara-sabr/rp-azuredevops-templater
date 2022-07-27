@@ -66,6 +66,11 @@ sequenceDiagram
     HTML->>CloneDialog: componentDidMount()
     Note over HTML,CloneDialog: React will call componentDidMount()
     CloneDialog->>CloneDialog: render
+    CloneDialog->>TemplateWorkItemService: loadSelectedWorkItemTree()
+    TemplateWorkItemService->>SearchRepository: getQuery()
+    Note right of TemplateWorkItemService: Change the WIQL statement to use your selected ID
+    TemplateWorkItemService->>SearchRepository:executeQueryWiql() 
+    Note right of TemplateWorkItemService: Create a list of TemplateWorkItemEntity    
     CloneDialog->>HTML: view panel displayed
     User->>HTML: Fill in clone settings
     HTML->>CloneDialog:processRequest()
