@@ -1,6 +1,3 @@
-//Library Level
-import { WorkItem } from "azure-devops-extension-api/WorkItemTracking";
-
 //Project Level
 import { WorkItemBaseEntity } from "@esdc-it-rp/azuredevops-common";
 
