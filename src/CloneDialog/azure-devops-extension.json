@@ -6,7 +6,7 @@
             "description": "The content panel for the selection of a work item to copy",
             "targets":[],
             "properties": {
-                "uri": "dist/CloneDialog/CloneDialog.html"
+                "uri": "dist/CloneDialog/CloneDialog.html?id={{selectionId}}"
             }
         }
     ]

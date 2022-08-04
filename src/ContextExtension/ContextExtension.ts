@@ -16,13 +16,13 @@ SDK.register("Context-Add-Template", () => {
        * without having to directly copy them as well.
        */
       
-      let selectedItem: number = context.workItemIds.length;
+      let selectionSize: number = context.workItemIds.length;
 
-      if (selectedItem != 1) {
+      if (selectionSize != 1) {
         alert("Error, cannot select more than one item at a time");
       }
 
-      if (selectedItem == 1) {
+      if (selectionSize == 1) {
         const dialogService = await SDK.getService<IHostPageLayoutService>(
           CommonServiceIds.HostPageLayoutService
         );
@@ -38,6 +38,7 @@ SDK.register("Context-Add-Template", () => {
                 // TODO: Highlight the created entry
               }
             },
+            configuration: {selectionId: context.workItemIds[0]}
           }
         );
       }

@@ -67,8 +67,9 @@ export class CloneDialog extends React.Component<{}, ICloneDialogState> {
    * TODO
    */
   private async loadSelectedItem():Promise<void> {
-    const selectedWorkItem:number = 1;
-    this.selectedWorkItem = await TemplateWorkItemService.loadSelectedWorkItemTree(selectedWorkItem);
+    const selectedWorkItemId:number = 4;
+    //console.log(selectedWorkItemId)
+    this.selectedWorkItem = await TemplateWorkItemService.loadSelectedWorkItemTree(selectedWorkItemId);
   }
 
   /**
@@ -89,6 +90,9 @@ export class CloneDialog extends React.Component<{}, ICloneDialogState> {
     //       Then don't do the below but use the UI clone setting binding (react).
     const cloneSettings = new CloneSettings();
     cloneSettings.copyHierarchy = false;
+    cloneSettings.replaceText = true;
+    cloneSettings.unassignAll = true;
+    cloneSettings.replacements.set("##replace##", "Test 1");
 
     if (this.selectedWorkItem) {
       TemplateWorkItemService.processItems(this.selectedWorkItem, cloneSettings);
@@ -147,21 +151,21 @@ export class CloneDialog extends React.Component<{}, ICloneDialogState> {
           <FormItem label="Find Text">
             <TextField
               prefixIconProps={{
-                render: className => <span className={className}>hello</span>
+                render: className => <span className={className}></span>
               }}
               onChange={(e, newValue) => (this.findObservable1.value = newValue)}
               width={TextFieldWidth.auto}
             />
 
             <TextField
-              value="Hello"
+              value=""
               onChange={(e, newValue) => (this.findObservable2.value = newValue)}
               width={TextFieldWidth.auto}
             />
 
             <TextField
               onChange={(e, newValue) => (this.findObservable3.value = newValue)}
-              placeholder="HELLO"
+              placeholder=""
               width={TextFieldWidth.auto}
             />
           </FormItem>
@@ -169,20 +173,20 @@ export class CloneDialog extends React.Component<{}, ICloneDialogState> {
           <FormItem label="Replace Text">
             <TextField
               prefixIconProps={{
-                render: className => <span className={className}>hi there</span>
+                render: className => <span className={className}></span>
               }}
               onChange={(e, newValue) => (this.replaceObservable1.value = newValue)}
               width={TextFieldWidth.auto}
             />
 
             <TextField
-              value="Hi There"
+              value=""
               onChange={(e, newValue) => (this.replaceObservable2.value = newValue)}
               width={TextFieldWidth.auto}
             />
 
             <TextField
-              value="HI THERE"
+              value=""
               onChange={(e, newValue) => (this.replaceObservable3.value = newValue)}
               width={TextFieldWidth.auto}
             />

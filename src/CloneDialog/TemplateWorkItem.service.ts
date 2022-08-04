@@ -14,6 +14,13 @@ import { TemplateWorkItemEntity } from "./TemplateWorkItem.entity";
  */
 export class TemplateWorkItemService {
 
+    static readonly SKIP_FIELDS = ["System.Id", "System.Rev", "System.AuthorizedDate", "System.RevisedDate",
+                            "System.State", "System.CreatedDate", "System.CreatedBy", "System.ChangedDate",
+                            "System.ChangedBy", "System.AuthorizedAs", "System.PersonId", "System.Watermark",
+                            "System.CommentCount", "Microsoft.VSTS.Common.StateChangeDate", "Microsoft.VSTS.Scheduling.TargetDate",
+                            "Microsoft.VSTS.Scheduling.StartDate", "System.IterationLevel2", "Microsoft.VSTS.Common.ActivatedDate", "Microsoft.VSTS.Common.ActivatedBy",
+                            "System.WorkItemType", "System.Parent", "System.History", "Microsoft.VSTS.Scheduling.RemainingWork"];
+
     static cloneDialog:CloneDialog;
 
     /**
@@ -26,13 +33,15 @@ export class TemplateWorkItemService {
     
         // Folder name + name of query 
         // Shared Queries/.../query
-        const searchQuery = await SearchRepository.getQuery("Shared Queries/Automation/Templater");
-        let wiql = searchQuery.wiql;
+        const searchQuery = await SearchRepository.getQuery("Shared Queries/Automation/Template Copy Query");
+        let basewiql = searchQuery.wiql;
 
-        // TODO
-        // Change the wiql statement to use selectedId instead of hardcoded ID.
-
-        console.log("Perform query");
+        /**
+         * This statement will change the ID of the query in the WIQL statement
+         * If you wish to look for a different work item, 
+         * please refer to CloneDialog.tsx under loadSelectedItem()
+         */
+        let wiql = basewiql.replace('4', String(selectedId));
 
         const searchResults: SearchResultEntity<TemplateWorkItemEntity, number> =
         await SearchRepository.executeQueryWiql(
@@ -53,7 +62,7 @@ export class TemplateWorkItemService {
         cloneSettings: CloneSettings){
 
         let currentItem: TreeNode<TemplateWorkItemEntity, number>;
-        let workItemPatchDocument:JsonPatchDocument;
+        let workItemPatchDocument = [];
         let originalId:number;
         let currentWorkItem:WorkItem;
         let idMapping:Map<number, WorkItem> = new Map();   
@@ -62,17 +71,19 @@ export class TemplateWorkItemService {
         let total = items.length;
         const projectName = await ProjectService.getProjectName();
 
-        // TODO
         // For loop to build an array of IDs
+        for (var i = 0; i < total; i++) {
+            currentItem = items[i];
+            if (currentItem.data){
+                arrayOfIds.push(currentItem.data.id);
+            }
+        }
 
         // TODO
         // Request the data .. Note a maximum array size of 200 is allowed, so if the 
         // array size exceeds 200, you'll need to break up the array to get the data 
         // through multiple calls to below and merge the result arrays.
         // @see https://docs.microsoft.com/en-us/rest/api/azure/devops/wit/work-items/get-work-items-batch?view=azure-devops-rest-7.1&tabs=HTTP
-
-        // Delete this line as used it to test it works
-        arrayOfIds.push(19);
 
         const results = await CommonRepositories.WIT_API_CLIENT.getWorkItemsBatch({
             ids: arrayOfIds,
@@ -94,14 +105,22 @@ export class TemplateWorkItemService {
             // 
             // You will need to build the map with a for loop by looping over item.fields and appending to the workItemPatchDocument array.
             // Example of what the content of the array would look like
-            workItemPatchDocument = [
-                {
-                "op": Operation.Add,
-                "path": "/fields/System.Title",
-                "from": null,
-                "value": "Sample task"
+            const fields = item.fields;
+            workItemPatchDocument = [];
+
+            for (const f in fields) {
+                //console.log(f + " = " + fields[f]);
+                if(TemplateWorkItemService.SKIP_FIELDS.indexOf(f) > -1) {
+                    continue;
                 }
-            ];
+                    
+                workItemPatchDocument.push({
+                    "op": Operation.Add,
+                    "path": "/fields/" + f,
+                    "from": null,
+                    "value": fields[f]
+                });
+            }
 
             const savedItem = await CommonRepositories.WIT_API_CLIENT.createWorkItem(
                 workItemPatchDocument, projectName, item.fields[Constants.WIT_FIELD_TYPE], false, true, true);
@@ -112,14 +131,15 @@ export class TemplateWorkItemService {
             // Make sure you skip the "ID" field in there.
 
             idMapping.set(originalId, savedItem);
+            console.log(idMapping);
         }
 
-        workItemPatchDocument = {}
+        workItemPatchDocument = []
         currentIdx = 0;
         console.log("----- Start Related section --------");
         
         // Force return for now unless your ready to create relationship items.
-        return;
+
 
         // Do the relationships based off the ID map.
         for (const item of results) {
@@ -128,29 +148,44 @@ export class TemplateWorkItemService {
             console.log("Working on " + currentIdx + " out of " + total);
 
             currentWorkItem = idMapping.get(item.id) as WorkItem;
+            console.log(item.relations);
+            for (const f of item.relations) {
+                let lastSlashIndex = f.url.lastIndexOf("/") + 1;
+                let relationshipId = f.url.substring(lastSlashIndex,);
+                console.log(relationshipId);
+                workItemPatchDocument.push({
+                    "op": Operation.Add,
+                    "path": "/relations/-",
+                    "from": null,
+                    "value": {
+                        "rel": f.rel,
+                        "url": f.url
+                    }
+                });
+            }
 
             // Example for one relation:
-            workItemPatchDocument = [
-                {
-                "op": Operation.Add,
-                "Path": "/relations/-",
-                "Value": {
-                    // System.LinkTypes.Hierarchy-Forward is for Child
-                    // System.LinkTypes.Hierarchy-Reverse is for Parent
-                    // @see https://docs.microsoft.com/en-us/azure/devops/boards/queries/link-type-reference?view=azure-devops
-                    "rel": "System.LinkTypes.Hierarchy-Forward",
+            // workItemPatchDocument = [
+            //     {
+            //     "op": Operation.Add,
+            //     "Path": "/relations/-",
+            //     "Value": {
+            //         // System.LinkTypes.Hierarchy-Forward is for Child
+            //         // System.LinkTypes.Hierarchy-Reverse is for Parent
+            //         // @see https://docs.microsoft.com/en-us/azure/devops/boards/queries/link-type-reference?view=azure-devops
+            //         "rel": "System.LinkTypes.Hierarchy-Forward",
 
-                    // This should not be URL as it needs to map to the newly associated ID.
-                    "url": item.url
-                }               
-                } 
-            ];
+            //         // This should not be URL as it needs to map to the newly associated ID.
+            //         "url": item.url
+            //     }               
+            //     } 
+            // ];
 
-            // call update
-            await CommonRepositories.WIT_API_CLIENT.updateWorkItem(                
-                workItemPatchDocument, currentWorkItem.id, projectName, false, true, true);
-            this.cloneDialog.updateProgress("Relationship ...", currentWorkItem, currentIdx, total);
-            console.log("Updated item " + currentIdx + " out of " + total + " as ID " + currentWorkItem.id);
+            // // call update
+            // await CommonRepositories.WIT_API_CLIENT.updateWorkItem(                
+            //     workItemPatchDocument, currentWorkItem.id, projectName, false, true, true);
+            // this.cloneDialog.updateProgress("Relationship ...", currentWorkItem, currentIdx, total);
+            // console.log("Updated item " + currentIdx + " out of " + total + " as ID " + currentWorkItem.id);
 
         }        
     }
@@ -165,7 +200,27 @@ export class TemplateWorkItemService {
     static applySettings(
         item: WorkItem, 
         cloneSettings: CloneSettings):void{
+        // Set what you want to do 
+        // String replacements
+        if(cloneSettings.replaceText){
+            for (const f in item.fields) {
+                if ((typeof item.fields[f]) == 'string') {
+                let stringReplacement = item.fields[f] as String;
+                cloneSettings.replacements.forEach((value, key) => {
+                        stringReplacement = stringReplacement.replace(key, value);
+                });
+                    
+                    item.fields[f] = stringReplacement;
+                }
+            }
+        }
+
+        if(cloneSettings.unassignAll){
+            delete item.fields["System.AssignedTo"];
+        }
         
+
+        // Do the actual logic by referencing what clone setting provided.
     }
     
 }

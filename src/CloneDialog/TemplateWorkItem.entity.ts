@@ -6,12 +6,12 @@ import { WorkItemBaseEntity } from "@esdc-it-rp/azuredevops-common";
  */
 export class TemplateWorkItemEntity extends WorkItemBaseEntity {
     /**
-     * The higher level work items associated with the particular item 
+     * The lower level work items associated with the particular item 
      */
     successors: number[] = [];
 
     /**
-     * The lower level work items associated with the particular item
+     * The higher level work items associated with the particular item
      */
     predecessors: number[] = [];
 }
