@@ -53,13 +53,19 @@ export class CloneDialog extends React.Component<{}, ICloneDialogState> {
    */
   static readonly REL_CONTRIBUTION_ID = "clone-template-dialog-wizard";
 
+  private workState: ICloneDialogState;
+
   constructor(props: {}) {
     super(props);
 
-    this.state = {
-      screenNumber: -1
+    this.workState = {
+      screenNumber: -1,
+      progress: 0,
+      message: ""
     }; 
+    this.state = this.workState;
   }
+
 
   public componentDidMount() {
     SDK.init();
@@ -114,7 +120,8 @@ export class CloneDialog extends React.Component<{}, ICloneDialogState> {
    * Update the page number which will force a refresh.
    */
   private updatePage(pageNumber: number):void {
-    this.setState({screenNumber: pageNumber});
+    this.workState.screenNumber =  pageNumber;
+    this.setState(this.workState);
   }
 
   /**
@@ -126,6 +133,9 @@ export class CloneDialog extends React.Component<{}, ICloneDialogState> {
    */
   public updateProgress(message:string, workItem:WorkItem, currentIdx:number, total:number):void {
     // TODO update
+    this.workState.progress = (currentIdx/total) * 100;
+    this.workState.message = message;
+    this.setState(this.workState);
   }
 
   /**
@@ -136,12 +146,6 @@ export class CloneDialog extends React.Component<{}, ICloneDialogState> {
   public renderScreenInitial(): JSX.Element {
     return (
       <div className="panel-window flex-grow">
-        {
-          // TODO:
-          // 1. Add the content for the inital screen.
-          // 2. Move the button bar to the bottom (Hint CSS classname)
-          // 3. On click of the Next button, it should NOT dismiss but update the screen number to 2.
-        }
         
         {/* In the following divs, we have separated all the different checkboxes
         and the textboxes to be filled. In the checkboxes, we have onChange functions'
@@ -151,6 +155,7 @@ export class CloneDialog extends React.Component<{}, ICloneDialogState> {
         items on the screen.
         */}
         <div className="flex-grow padding-bottom-16">
+          {/*
           <div className="flex-row">
             <Checkbox
               onChange={(event, checked) => (this.copyCheckbox.value = checked)}
@@ -186,6 +191,7 @@ export class CloneDialog extends React.Component<{}, ICloneDialogState> {
               />
             </FormItem>
           </div>
+          */}
 
           <div className="flex-row">
             <Checkbox
@@ -219,21 +225,15 @@ export class CloneDialog extends React.Component<{}, ICloneDialogState> {
     return (
       <div>
         Progress Screen
-        {
-          // TODO:
-          // 1. Add the content for the progress screen.
-          // 2. Move the button bar to the bottom (Hint CSS classname)
-          // 3. On click of the Next button, it should dismiss only when the progress is complete, button should be disabled till it is.
-          // 4. If cancel is clicked, it should stop the current activity.
-        }
+        <p>{this.state.message}</p>
 
         {/* For the progress bar, we are using a different module
         and can be found in this link: 
         https://www.npmjs.com/package/@ramonak/react-progress-bar */}
 
         <ProgressBar 
-          completed={60}
-          labelClassName="Copying stuff"
+          completed={this.state.progress}
+          labelClassName=""
         />
         
         <ButtonGroup className="">

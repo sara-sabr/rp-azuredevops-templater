@@ -79,7 +79,6 @@ export class TemplateWorkItemService {
             }
         }
 
-        // TODO
         // Request the data .. Note a maximum array size of 200 is allowed, so if the 
         // array size exceeds 200, you'll need to break up the array to get the data 
         // through multiple calls to below and merge the result arrays.
@@ -97,7 +96,6 @@ export class TemplateWorkItemService {
             originalId = item.id;
             currentIdx++;
             this.applySettings(item, cloneSettings);
-            console.log("Working on " + currentIdx + " out of " + total);
 
             // TODO:
             // Do the save
@@ -124,9 +122,9 @@ export class TemplateWorkItemService {
 
             const savedItem = await CommonRepositories.WIT_API_CLIENT.createWorkItem(
                 workItemPatchDocument, projectName, item.fields[Constants.WIT_FIELD_TYPE], false, true, true);
-            console.log("Saved item " + currentIdx + " out of " + total + " as ID " + savedItem.id);
+            let currentMessage = "Saved item " + currentIdx + " out of " + total + " as ID " + savedItem.id;
             
-            this.cloneDialog.updateProgress("Creating ...", savedItem, currentIdx, total);
+            this.cloneDialog.updateProgress("Creating " + currentMessage, savedItem, currentIdx, total);
             // The savedItem ID should not equal original ID, if it does, your doing something wrong in the patch document.
             // Make sure you skip the "ID" field in there.
 
