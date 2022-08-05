@@ -38,7 +38,7 @@ SDK.register("Context-Add-Template", () => {
                 // TODO: Highlight the created entry
               }
             },
-            configuration: {selectionId: context.workItemIds[0]}
+            configuration: {selectedWorkItemId: context.workItemIds[0]}
           }
         );
       }

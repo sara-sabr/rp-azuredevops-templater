@@ -1,3 +1,6 @@
+div#root {
+    width: 100%
+}
 
 ul.bullet {
     padding-left: revert;
@@ -5,12 +8,4 @@ ul.bullet {
 
 ul.bullet > li {
     list-style: inherit;
-}
-
-// the following parent div style is used for  
-// displaying the textboxes or any element on the same row
-.parent {
-    width: 100%;
-    display: flex;
-    justify-content: space-around;
 }

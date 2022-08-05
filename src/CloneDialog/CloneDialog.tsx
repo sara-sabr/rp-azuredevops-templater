@@ -44,32 +44,43 @@ export class CloneDialog extends React.Component<{}, ICloneDialogState> {
   private selectedWorkItem:TreeNode<TemplateWorkItemEntity, number>[] | undefined; 
 
   /**
+   * Selected work item ID (root ID).
+   */
+  private selectedWorkItemId:number = -1;
+
+  /**
    * Relative extension ID without the [publisher].[extensionid] prefix.
    */
   static readonly REL_CONTRIBUTION_ID = "clone-template-dialog-wizard";
 
   constructor(props: {}) {
     super(props);
+
     this.state = {
-      screenNumber: 1,
-      width: 1000,
-      height: 1000,
-    };
+      screenNumber: -1
+    }; 
   }
 
   public componentDidMount() {
     SDK.init();
-    TemplateWorkItemService.cloneDialog = this;
-    this.loadSelectedItem();
+    SDK.ready().then(() => {
+      const configuration = SDK.getConfiguration();
+      console.log(configuration);
+      if (configuration.selectedWorkItemId) {
+        // Mounting is loaded twice, so only load the rest if the ID is actually provided.
+        this.selectedWorkItemId = configuration.selectedWorkItemId as number;        
+        TemplateWorkItemService.cloneDialog = this;
+        this.loadSelectedItem();    
+      }
+    });
   }
 
   /**
    * TODO
    */
   private async loadSelectedItem():Promise<void> {
-    const selectedWorkItemId:number = 4;
-    //console.log(selectedWorkItemId)
-    this.selectedWorkItem = await TemplateWorkItemService.loadSelectedWorkItemTree(selectedWorkItemId);
+    this.selectedWorkItem = await TemplateWorkItemService.loadSelectedWorkItemTree(this.selectedWorkItemId);
+    this.updatePage(1);
   }
 
   /**
@@ -78,7 +89,7 @@ export class CloneDialog extends React.Component<{}, ICloneDialogState> {
   private prcessRequest():void {
     // console.log(this);
 
-    this.setState({screenNumber: 2})
+    this.updatePage(2);
     this.asyncProcessRequest();
   }
 
@@ -100,6 +111,13 @@ export class CloneDialog extends React.Component<{}, ICloneDialogState> {
   }
 
   /**
+   * Update the page number which will force a refresh.
+   */
+  private updatePage(pageNumber: number):void {
+    this.setState({screenNumber: pageNumber});
+  }
+
+  /**
    * 
    * @param messge
    * @param workItem 
@@ -117,7 +135,7 @@ export class CloneDialog extends React.Component<{}, ICloneDialogState> {
    */
   public renderScreenInitial(): JSX.Element {
     return (
-      <div>
+      <div className="panel-window flex-grow">
         {
           // TODO:
           // 1. Add the content for the inital screen.
@@ -132,80 +150,60 @@ export class CloneDialog extends React.Component<{}, ICloneDialogState> {
         In the classnames, we are using the special conditions that align the different
         items on the screen.
         */}
-
-        <div className="rhythm-vertical-8 flex-column">
-          <Checkbox
-            onChange={(event, checked) => (this.copyCheckbox.value = checked)}
-            checked={this.copyCheckbox}
-            label="Copy Hierarchy"
-          />
-
-          <Checkbox
-            onChange={(event, checked) => (this.replaceCheckbox.value = checked)}
-            checked={this.replaceCheckbox}
-            label="Replace Text"
-          />
-        </div>
-
-        <div className='parent'>
-          <FormItem label="Find Text">
-            <TextField
-              prefixIconProps={{
-                render: className => <span className={className}></span>
-              }}
-              onChange={(e, newValue) => (this.findObservable1.value = newValue)}
-              width={TextFieldWidth.auto}
+        <div className="flex-grow padding-bottom-16">
+          <div className="flex-row">
+            <Checkbox
+              onChange={(event, checked) => (this.copyCheckbox.value = checked)}
+              checked={this.copyCheckbox}
+              label="Copy Hierarchy"
             />
-
-            <TextField
-              value=""
-              onChange={(e, newValue) => (this.findObservable2.value = newValue)}
-              width={TextFieldWidth.auto}
+          </div>
+          <div className="flex-row">
+            <Checkbox
+              onChange={(event, checked) => (this.replaceCheckbox.value = checked)}
+              checked={this.replaceCheckbox}
+              label="Replace Text"
             />
+          </div>
+          <div className='flex-row rhythm-horizontal-8 padding-vertical-8 margin-left-16 padding-left-16'>
+            <FormItem label="Find Text">
+              <TextField
+                prefixIconProps={{
+                  render: className => <span className={className}></span>
+                }}
+                onChange={(e, newValue) => (this.findObservable1.value = newValue)}
+                width={TextFieldWidth.auto}
+              />
+            </FormItem>
 
-            <TextField
-              onChange={(e, newValue) => (this.findObservable3.value = newValue)}
-              placeholder=""
-              width={TextFieldWidth.auto}
+            <FormItem label="Replace Text">
+              <TextField
+                prefixIconProps={{
+                  render: className => <span className={className}></span>
+                }}
+                onChange={(e, newValue) => (this.replaceObservable1.value = newValue)}
+                width={TextFieldWidth.auto}
+              />
+            </FormItem>
+          </div>
+
+          <div className="flex-row">
+            <Checkbox
+              onChange={(event, checked) => (this.unassignCheckbox.value = checked)}
+              checked={this.unassignCheckbox}
+              label="Unassign All"
             />
-          </FormItem>
-
-          <FormItem label="Replace Text">
-            <TextField
-              prefixIconProps={{
-                render: className => <span className={className}></span>
-              }}
-              onChange={(e, newValue) => (this.replaceObservable1.value = newValue)}
-              width={TextFieldWidth.auto}
-            />
-
-            <TextField
-              value=""
-              onChange={(e, newValue) => (this.replaceObservable2.value = newValue)}
-              width={TextFieldWidth.auto}
-            />
-
-            <TextField
-              value=""
-              onChange={(e, newValue) => (this.replaceObservable3.value = newValue)}
-              width={TextFieldWidth.auto}
-            />
-          </FormItem>
-        </div>
-
-        <div>
-          <Checkbox
-            onChange={(event, checked) => (this.unassignCheckbox.value = checked)}
-            checked={this.unassignCheckbox}
-            label="Unassign All"
-          />
+          </div>
+        </div>        
+        
+        <div className="padding-top-16 separator-line-top absolute full-width" style={{bottom: 20}}>
           <ButtonGroup className="btn btn-primary">
-            <Button
-              primary={true}
-              text="Next"
-              onClick={this.prcessRequest.bind(this)}
-            />
-            <Button text="Cancel" onClick={() => this.dismiss(false)} />
+              <Button
+                primary={true}
+                text="Next"
+                onClick={this.prcessRequest.bind(this)}
+              />
+              <Button text="Cancel" onClick={() => this.dismiss(false)} />
           </ButtonGroup>
         </div>
       </div>
@@ -252,7 +250,7 @@ export class CloneDialog extends React.Component<{}, ICloneDialogState> {
 
   public render(): JSX.Element {
     return (
-      <div className="flex-column flex-grow" style={{width: "500px", height: "500px"}}>
+      <div className="flex-column flex-grow">
         {this.state.screenNumber === 1 && this.renderScreenInitial()}
         {this.state.screenNumber === 2 && this.renderScreenProgress()}
       </div>
