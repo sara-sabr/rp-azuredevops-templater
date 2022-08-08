@@ -26,7 +26,7 @@ export class TemplateWorkItemService {
     /**
      * 
      * @param selectedId 
-     * @returns 
+     * @returns searchResults 
      */
     static async loadSelectedWorkItemTree(selectedId:number
     ): Promise<TreeNode<TemplateWorkItemEntity, number >[]> {
@@ -122,9 +122,9 @@ export class TemplateWorkItemService {
 
             const savedItem = await CommonRepositories.WIT_API_CLIENT.createWorkItem(
                 workItemPatchDocument, projectName, item.fields[Constants.WIT_FIELD_TYPE], false, true, true);
-            let currentMessage = "Saved item " + currentIdx + " out of " + total + " as ID " + savedItem.id;
+            let createMessage = "Saved item " + currentIdx + " out of " + total + " as ID " + savedItem.id;
             
-            this.cloneDialog.updateProgress("Creating " + currentMessage, savedItem, currentIdx, total);
+            this.cloneDialog.updateProgress("Creating " + createMessage, savedItem, currentIdx, total);
             // The savedItem ID should not equal original ID, if it does, your doing something wrong in the patch document.
             // Make sure you skip the "ID" field in there.
 
@@ -160,6 +160,7 @@ export class TemplateWorkItemService {
                         "url": f.url
                     }
                 });
+                console.log(workItemPatchDocument);
             }
 
             // Example for one relation:
@@ -179,7 +180,7 @@ export class TemplateWorkItemService {
             //     } 
             // ];
 
-            // // call update
+            // call update
             // await CommonRepositories.WIT_API_CLIENT.updateWorkItem(                
             //     workItemPatchDocument, currentWorkItem.id, projectName, false, true, true);
             // this.cloneDialog.updateProgress("Relationship ...", currentWorkItem, currentIdx, total);

@@ -35,7 +35,6 @@ SDK.register("Context-Add-Template", () => {
             // Options
             onClose: (result) => {
               if (result !== undefined) {
-                // TODO: Highlight the created entry
               }
             },
             configuration: {selectedWorkItemId: context.workItemIds[0]}
