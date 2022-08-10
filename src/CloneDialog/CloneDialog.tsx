@@ -66,7 +66,6 @@ export class CloneDialog extends React.Component<{}, ICloneDialogState> {
     this.state = this.workState;
   }
 
-
   public componentDidMount() {
     SDK.init();
     SDK.ready().then(() => {
@@ -82,7 +81,9 @@ export class CloneDialog extends React.Component<{}, ICloneDialogState> {
   }
 
   /**
-   * TODO
+   * Pulls the data of the user selected Work Item and brings the user to page 1
+   * 
+   * @returns Promise<void>
    */
   private async loadSelectedItem():Promise<void> {
     this.selectedWorkItem = await TemplateWorkItemService.loadSelectedWorkItemTree(this.selectedWorkItemId);
@@ -90,25 +91,23 @@ export class CloneDialog extends React.Component<{}, ICloneDialogState> {
   }
 
   /**
-   * TODO
+   * Processes the User's inputs and changes the page to the progress screen
+   * 
+   * @returns void
    */
   private prcessRequest():void {
-    // console.log(this);
-
     this.updatePage(2);
     this.asyncProcessRequest();
   }
 
-  /**
-   * TODO
-   */
   private async asyncProcessRequest():Promise<void> {
-    // TODO: First get the backend working
-    //       Then don't do the below but use the UI clone setting binding (react).
+
+    // TODO: Update the follow settings based upon the UI inputs
+
     const cloneSettings = new CloneSettings();
     cloneSettings.copyHierarchy = false;
     cloneSettings.replaceText = true;
-    cloneSettings.unassignAll = true;
+    cloneSettings.unassignAll = this.unassignCheckbox.value;
     cloneSettings.replacements.set("##replace##", "Test 1");
 
     if (this.selectedWorkItem) {
@@ -132,7 +131,6 @@ export class CloneDialog extends React.Component<{}, ICloneDialogState> {
    * @param total
    */
   public updateProgress(message:string, workItem:WorkItem, currentIdx:number, total:number):void {
-    // TODO update
     this.workState.progress = (currentIdx/total) * 100;
     this.workState.message = message;
     this.setState(this.workState);
@@ -248,6 +246,11 @@ export class CloneDialog extends React.Component<{}, ICloneDialogState> {
     );
   }
 
+  /**
+   * Render function to display the panel and transition the screens
+   * 
+   * @returns Jsx.Element
+   */
   public render(): JSX.Element {
     return (
       <div className="flex-column flex-grow">
