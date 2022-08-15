@@ -82,14 +82,15 @@ sequenceDiagram
     Note right of TemplateWorkItemService: Create a list of TemplateWorkItemEntity    
     CloneDialog->>HTML: view panel displayed
     User->>HTML: Fill in clone settings
-    HTML->>CloneDialog:processRequest()
+    HTML->>CloneDialog:prcessRequest()
     par HTML to CloneDialog
       CloneDialog->>CloneDialog: renderScreenProgress()
       CloneDialog->>HTML: Show progress    
     and Asychronous call from processRequest()
       CloneDialog->>TemplateWorkItemService: processItem()
         loop items
-          TemplateWorkItemService->>TemplateWorkItemService: Create ID array of items to copy
+          TemplateWorkItemService->>TemplateWorkItemService: processItems
+          Note right of TemplateWorkItemService: Create ID array of items to copy
         end
         TemplateWorkItemService->>WorkItemTrackingRestClient: Azure Devops API workitemsbatch
         loop results

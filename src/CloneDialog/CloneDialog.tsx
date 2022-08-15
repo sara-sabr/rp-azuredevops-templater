@@ -21,6 +21,7 @@ import { TemplateWorkItemEntity } from "./TemplateWorkItem.entity";
 import { CloneSettings } from "./CloneSetting";
 import { TreeNode } from "@esdc-it-rp/azuredevops-common";
 import { WorkItem } from "azure-devops-extension-api/WorkItemTracking";
+// import { TemplateCopyService } from "./TemplateCopy.service";
 
 /**
  * Following variables that are associated with the various checkboxes
@@ -33,13 +34,13 @@ export class CloneDialog extends React.Component<{}, ICloneDialogState> {
   private replaceCheckbox = new ObservableValue<boolean>(false);
   private unassignCheckbox = new ObservableValue<boolean>(false);
   
-  private findObservable1 = new ObservableValue<string>("");
-  private findObservable2 = new ObservableValue<string>("");
-  private findObservable3 = new ObservableValue<string>("");
+  // private findObservable1 = new ObservableValue<string>("");
+  // private findObservable2 = new ObservableValue<string>("");
+  // private findObservable3 = new ObservableValue<string>("");
   
-  private replaceObservable1 = new ObservableValue<string>("");
-  private replaceObservable2 = new ObservableValue<string>("");
-  private replaceObservable3 = new ObservableValue<string>("");
+  // private replaceObservable1 = new ObservableValue<string>("");
+  // private replaceObservable2 = new ObservableValue<string>("");
+  // private replaceObservable3 = new ObservableValue<string>("");
 
   private selectedWorkItem:TreeNode<TemplateWorkItemEntity, number>[] | undefined; 
 
