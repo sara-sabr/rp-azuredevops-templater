@@ -19,7 +19,8 @@ export class TemplateWorkItemService {
                             "System.ChangedBy", "System.AuthorizedAs", "System.PersonId", "System.Watermark",
                             "System.CommentCount", "Microsoft.VSTS.Common.StateChangeDate", "Microsoft.VSTS.Scheduling.TargetDate",
                             "Microsoft.VSTS.Scheduling.StartDate", "System.IterationLevel2", "Microsoft.VSTS.Common.ActivatedDate", "Microsoft.VSTS.Common.ActivatedBy",
-                            "System.WorkItemType", "System.Parent", "System.History", "Microsoft.VSTS.Scheduling.RemainingWork"];
+                            "System.WorkItemType", "System.Parent", "System.History", "Microsoft.VSTS.Scheduling.RemainingWork",
+                            "System.BoardColumn", "System.BoardColumnDone"];
 
     static cloneDialog:CloneDialog;
 
