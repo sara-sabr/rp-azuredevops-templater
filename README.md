@@ -55,7 +55,7 @@ Once your ready to test, perform the following:
 3. Open Firefox
 4. Ensure you have installed your extension for your organization.
 5. Browse to the project/organzation.
-6. In your organization you must create a Query with the following settings then save: ![Query Settings](/rp-azuredevops-templater/blob/main/documentation/QuerySettings.png?raw=true "Query Settings")
+6. In your organization you must create a Query with the following settings then save: ![Query Settings](/sara-sabr/rp-azuredevops-templater/blob/main/documentation/QuerySettings.png?raw=true "Query Settings")
 7. Create a Folder in Shared Queries, called "Automation," then move the saved query into the newly created folder: https://github.com/sara-sabr/rp-azuredevops-templater/blob/main/documentation/QueryLocation.png
 
 
