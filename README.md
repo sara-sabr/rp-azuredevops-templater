@@ -18,6 +18,7 @@ Download and install the following tools
 5. The [tfx-cli](https://www.npmjs.com/package/tfx-cli) npm package
 6. The [webpack](https://www.npmjs.com/package/webpack) npm package
 7. The [webpack-dev-server](https://www.npmjs.com/package/webpack-dev-server) npm package
+8. The [progress-bar](https://www.npmjs.com/package/@ramonak/react-progress-bar) npm package
 
 > If you would prefer not to install the npm packages globally, you can add them to devDependencies in your `package.json` file and invoke them with scripts. You can use the [package.json](./package.json) in this repo as a template for scripts and to ensure you have the correct versions of packages in your extension.
 
@@ -54,6 +55,11 @@ Once your ready to test, perform the following:
 3. Open Firefox
 4. Ensure you have installed your extension for your organization.
 5. Browse to the project/organzation.
+6. In your organization you must create a Query with the following settings then save: https://github.com/sara-sabr/rp-azuredevops-templater/blob/main/documentation/QuerySettings.png
+7. Create a Folder in Shared Queries, called "Automation," then move the saved query into the newly created folder: https://github.com/sara-sabr/rp-azuredevops-templater/blob/main/documentation/QueryLocation.png
+
+
+
 
 ### Publishing Production
 
