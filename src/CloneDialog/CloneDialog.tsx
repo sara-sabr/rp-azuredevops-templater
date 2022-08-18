@@ -76,7 +76,7 @@ export class CloneDialog extends React.Component<{}, ICloneDialogState> {
         // Mounting is loaded twice, so only load the rest if the ID is actually provided.
         this.selectedWorkItemId = configuration.selectedWorkItemId as number;        
         TemplateWorkItemService.cloneDialog = this;
-        this.loadSelectedItem();    
+        this.loadSelectedItem();   
       }
     });
   }
@@ -126,13 +126,15 @@ export class CloneDialog extends React.Component<{}, ICloneDialogState> {
 
   /**
    * 
-   * @param messge
+   * Update the progress on screen for user
+   * 
+   * @param message
    * @param workItem 
    * @param currentIdx
    * @param total
    */
   public updateProgress(message:string, workItem:WorkItem, currentIdx:number, total:number):void {
-    this.workState.progress = (currentIdx/total) * 100;
+    this.workState.progress = Math.trunc((currentIdx/total) * 100);
     this.workState.message = message;
     this.setState(this.workState);
   }
@@ -155,13 +157,6 @@ export class CloneDialog extends React.Component<{}, ICloneDialogState> {
         */}
         <div className="flex-grow padding-bottom-16">
           {/*
-          <div className="flex-row">
-            <Checkbox
-              onChange={(event, checked) => (this.copyCheckbox.value = checked)}
-              checked={this.copyCheckbox}
-              label="Copy Hierarchy"
-            />
-          </div>
           <div className="flex-row">
             <Checkbox
               onChange={(event, checked) => (this.replaceCheckbox.value = checked)}
@@ -235,14 +230,13 @@ export class CloneDialog extends React.Component<{}, ICloneDialogState> {
           labelClassName=""
         />
         
-        <ButtonGroup className="">
-          <Button
-            primary={true}
-            text="Next"
-            onClick={() => this.dismiss(true)}
-          />
-          <Button text="Cancel" onClick={() => this.dismiss(false)} />
-        </ButtonGroup>
+        <div className="padding-top-16 separator-line-top absolute full-width" style={{bottom: 20}}>
+            <Button
+              primary={true}
+              text="Close"
+              onClick={() => <meta http-equiv="refresh" content="1"></meta>}
+            />
+        </div>
       </div>
     );
   }

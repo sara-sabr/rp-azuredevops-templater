@@ -54,6 +54,7 @@ export class TemplateWorkItemService {
     }
 
    /**
+     *  
      * 
      * @param item 
      * @param cloneSettings 
@@ -70,6 +71,8 @@ export class TemplateWorkItemService {
         const arrayOfIds:number[] = [];
         let currentIdx = 0;
         let total = items.length;
+        let displaytotal = (items.length)*2;
+        //let displayID = 0
         const projectName = await ProjectService.getProjectName();
 
         // For loop to build an array of IDs
@@ -96,6 +99,7 @@ export class TemplateWorkItemService {
         // For loop to create new Work items from the original pulled Work items
         for (const item of results) {
             originalId = item.id;
+            //displayID++;
             currentIdx++;
             this.applySettings(item, cloneSettings);
 
@@ -122,7 +126,7 @@ export class TemplateWorkItemService {
                 workItemPatchDocument, projectName, item.fields[Constants.WIT_FIELD_TYPE], false, true, true);
             let createMessage = "Saved item " + currentIdx + " out of " + total + " as ID " + savedItem.id;
             
-            this.cloneDialog.updateProgress("Creating " + createMessage, savedItem, currentIdx, total);
+            this.cloneDialog.updateProgress("Creating " + createMessage, savedItem, currentIdx, displaytotal);
             // The savedItem ID should not equal original ID, if it does, your doing something wrong in the patch document.
 
             /**
@@ -132,13 +136,13 @@ export class TemplateWorkItemService {
             idMapping.set(originalId, savedItem);
         }
 
-        currentIdx = 0;
+        //currentIdx = 0;
         // console.log("----- Start Related section --------");
 
         // For loop to build the relationships between the created Work Items
         for (const originalWorkItem of results) {
             currentIdx++;
-            console.log("Working on " + currentIdx + " out of " + total);
+            //console.log("Working on " + currentIdx + " out of " + total);
 
             currentWorkItem = idMapping.get(originalWorkItem.id) as WorkItem;
             workItemPatchDocument = [];
@@ -173,7 +177,7 @@ export class TemplateWorkItemService {
             await CommonRepositories.WIT_API_CLIENT.updateWorkItem(                
                 workItemPatchDocument, currentWorkItem.id, projectName, false, true, true);
             let updateMessage = "Updated Relationship item " + currentIdx + " out of " + total + " as ID " + currentWorkItem.id;
-            this.cloneDialog.updateProgress(updateMessage, currentWorkItem, currentIdx, total);
+            this.cloneDialog.updateProgress(updateMessage, currentWorkItem, currentIdx, displaytotal);
 
         }        
     }
