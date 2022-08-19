@@ -116,6 +116,11 @@ export class CloneDialog extends React.Component<{}, ICloneDialogState> {
     }
   }
 
+  private refreshPage = ()=> {
+    this.dismiss(false);
+    window.location.reload;
+  }
+
   /**
    * Update the page number which will force a refresh.
    */
@@ -218,7 +223,6 @@ export class CloneDialog extends React.Component<{}, ICloneDialogState> {
   public renderScreenProgress(): JSX.Element {
     return (
       <div>
-        Progress Screen
         <p>{this.state.message}</p>
 
         {/* For the progress bar, we are using a different module
@@ -234,7 +238,10 @@ export class CloneDialog extends React.Component<{}, ICloneDialogState> {
             <Button
               primary={true}
               text="Close"
-              onClick={() => <meta http-equiv="refresh" content="1"></meta>}
+              onClick={() => {
+                this.dismiss(false);
+                window.location.reload(true)}
+              }
             />
         </div>
       </div>
