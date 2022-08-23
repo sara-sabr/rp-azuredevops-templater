@@ -63,7 +63,8 @@ export class CloneDialog extends React.Component<{}, ICloneDialogState> {
     this.workState = {
       screenNumber: -1,
       progress: 0,
-      message: ""
+      message: "",
+      replaceItems: 0
     }; 
     this.state = this.workState;
   }
@@ -146,8 +147,47 @@ export class CloneDialog extends React.Component<{}, ICloneDialogState> {
     this.setState(this.workState);
   }
 
-  private replacementBlock(){
-    
+  private incrementReplace():void{
+    this.workState.replaceItems ++;
+    this.setState(this.workState);
+    console.log(this.workState.replaceItems);
+  }
+
+  private generateReplacementUI(index:number): JSX.Element{
+    return(
+      <div className='flex-row rhythm-horizontal-8 padding-vertical-8 margin-left-16 padding-left-16'>
+            <FormItem className={index > 0?"hide-label":""} label="Find Text">
+              <TextField
+                prefixIconProps={{
+                  render: className => <span className={className}></span>
+                }}
+                onChange={(e, newValue) => (this.findObservable1.value = newValue)}
+                width={TextFieldWidth.auto}
+              />
+            </FormItem>
+
+            <FormItem className={index > 0?"hide-label":""} label="Replace Text" >
+              <TextField
+                prefixIconProps={{
+                  render: className => <span className={className}></span>
+                }}
+                onChange={(e, newValue) => (this.replaceObservable1.value = newValue)}
+                width={TextFieldWidth.auto}
+              />
+            </FormItem>
+          </div>
+    )
+  }
+
+  private generateAllReplacements(): JSX.Element[]{
+    var widgets : JSX.Element[]=[];
+    for (let index = 0; index < this.workState.replaceItems; index++) {
+      
+      widgets.push(this.generateReplacementUI(index));
+    }
+    return(
+      widgets
+    )
   }
 
   /**
@@ -170,33 +210,16 @@ export class CloneDialog extends React.Component<{}, ICloneDialogState> {
           
           <div className="flex-row">
             <Checkbox
-              onChange={() => this.replacementBlock()}
               checked={this.replaceCheckbox}
               label="Replace Text"
             />
+            <Button
+              text="Add Replacement"
+              onClick={this.incrementReplace.bind(this)}
+            />
           </div>
-          <div className='flex-row rhythm-horizontal-8 padding-vertical-8 margin-left-16 padding-left-16'>
-            <FormItem label="Find Text">.
-              <TextField
-                prefixIconProps={{
-                  render: className => <span className={className}></span>
-                }}
-                onChange={(e, newValue) => (this.findObservable1.value = newValue)}
-                width={TextFieldWidth.auto}
-              />
-              <Icon ariaLabel=""></Icon>
-            </FormItem>
-
-            <FormItem label="Replace Text">
-              <TextField
-                prefixIconProps={{
-                  render: className => <span className={className}></span>
-                }}
-                onChange={(e, newValue) => (this.replaceObservable1.value = newValue)}
-                width={TextFieldWidth.auto}
-              />
-            </FormItem>
-          </div>
+          {this.generateAllReplacements()}
+          
 
           <div className="flex-row">
             <Checkbox

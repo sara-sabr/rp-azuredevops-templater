@@ -8,4 +8,5 @@ interface ICloneDialogState {
     screenNumber:number;
     progress:number;
     message:string;
+    replaceItems:number;
 }

@@ -9,3 +9,9 @@ ul.bullet {
 ul.bullet > li {
     list-style: inherit;
 }
+
+div.hide-label label {
+    visibility: hidden;
+    height: 0px;
+    margin-bottom: 0px;
+}
