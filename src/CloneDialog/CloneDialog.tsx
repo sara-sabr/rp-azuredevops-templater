@@ -110,7 +110,7 @@ export class CloneDialog extends React.Component<{}, ICloneDialogState> {
 
     const cloneSettings = new CloneSettings();
     cloneSettings.copyHierarchy = false;
-    cloneSettings.replaceText = true;
+    cloneSettings.replaceText = this.replaceCheckbox.value;
     cloneSettings.unassignAll = this.unassignCheckbox.value;
     cloneSettings.replacements.set("##replace##", "Test 1");
 
@@ -150,7 +150,6 @@ export class CloneDialog extends React.Component<{}, ICloneDialogState> {
   private incrementReplace():void{
     this.workState.replaceItems ++;
     this.setState(this.workState);
-    console.log(this.workState.replaceItems);
   }
 
   private generateReplacementUI(index:number): JSX.Element{
@@ -158,20 +157,17 @@ export class CloneDialog extends React.Component<{}, ICloneDialogState> {
       <div className='flex-row rhythm-horizontal-8 padding-vertical-8 margin-left-16 padding-left-16'>
             <FormItem className={index > 0?"hide-label":""} label="Find Text">
               <TextField
-                prefixIconProps={{
-                  render: className => <span className={className}></span>
-                }}
-                onChange={(e, newValue) => (this.findObservable1.value = newValue)}
+                value={this.findObservable1.value}
+                onChange={(e, newValue) => (this.findObservable1.value = newValue, console.log(newValue))}
                 width={TextFieldWidth.auto}
               />
             </FormItem>
 
             <FormItem className={index > 0?"hide-label":""} label="Replace Text" >
-              <TextField
-                prefixIconProps={{
-                  render: className => <span className={className}></span>
-                }}
+              <TextField 
+                value={this.replaceObservable1.value}
                 onChange={(e, newValue) => (this.replaceObservable1.value = newValue)}
+                placeholder="Hello Peter"
                 width={TextFieldWidth.auto}
               />
             </FormItem>
@@ -182,7 +178,6 @@ export class CloneDialog extends React.Component<{}, ICloneDialogState> {
   private generateAllReplacements(): JSX.Element[]{
     var widgets : JSX.Element[]=[];
     for (let index = 0; index < this.workState.replaceItems; index++) {
-      
       widgets.push(this.generateReplacementUI(index));
     }
     return(
@@ -218,9 +213,9 @@ export class CloneDialog extends React.Component<{}, ICloneDialogState> {
               onClick={this.incrementReplace.bind(this)}
             />
           </div>
+
           {this.generateAllReplacements()}
           
-
           <div className="flex-row">
             <Checkbox
               onChange={(event, checked) => (this.unassignCheckbox.value = checked)}
