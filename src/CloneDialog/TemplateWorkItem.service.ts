@@ -26,6 +26,8 @@ export class TemplateWorkItemService {
 
     /**
      * 
+     * Loads in the selected work item from the query
+     * 
      * @param selectedId 
      * @returns searchResults 
      */
@@ -55,6 +57,7 @@ export class TemplateWorkItemService {
 
    /**
      *  
+     * From the selected work item, create a copy of the work tree
      * 
      * @param item 
      * @param cloneSettings 
@@ -196,14 +199,15 @@ export class TemplateWorkItemService {
     static applySettings(
         item: WorkItem, 
         cloneSettings: CloneSettings):void{
-
+        
+        console.log(cloneSettings);
         // String replacements
-        if(cloneSettings.replaceText){
+        if(cloneSettings.replaceText()){
             for (const f in item.fields) {
                 if ((typeof item.fields[f]) == 'string') {
                 let stringReplacement = item.fields[f] as String;
-                cloneSettings.replacements.forEach((value, key) => {
-                        stringReplacement = stringReplacement.replace(key, value);
+                cloneSettings.replacements.forEach((value) => {
+                        stringReplacement = stringReplacement.replace(value.findText(), value.replaceText());
                 });
                     
                     item.fields[f] = stringReplacement;
@@ -211,7 +215,7 @@ export class TemplateWorkItemService {
             }
         }
 
-        if(cloneSettings.unassignAll){
+        if(cloneSettings.unassignAll()){
             delete item.fields["System.AssignedTo"];
         }
         

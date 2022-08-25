@@ -22,6 +22,7 @@ import { TemplateWorkItemEntity } from "./TemplateWorkItem.entity";
 import { CloneSettings } from "./CloneSetting";
 import { TreeNode } from "@esdc-it-rp/azuredevops-common";
 import { WorkItem } from "azure-devops-extension-api/WorkItemTracking";
+import { ReplacementBlock } from "./ReplacementBlock";
 // import { TemplateCopyService } from "./TemplateCopy.service";
 
 /**
@@ -31,17 +32,7 @@ import { WorkItem } from "azure-devops-extension-api/WorkItemTracking";
 
 export class CloneDialog extends React.Component<{}, ICloneDialogState> {
 
-  private copyCheckbox = new ObservableValue<boolean>(false);
-  private replaceCheckbox = new ObservableValue<boolean>(false);
-  private unassignCheckbox = new ObservableValue<boolean>(false);
-  
-  private findObservable1 = new ObservableValue<string>("");
-  // private findObservable2 = new ObservableValue<string>("");
-  // private findObservable3 = new ObservableValue<string>("");
-  
-  private replaceObservable1 = new ObservableValue<string>("");
-  // private replaceObservable2 = new ObservableValue<string>("");
-  // private replaceObservable3 = new ObservableValue<string>("");
+  private cloneSettings= new CloneSettings();
 
   private selectedWorkItem:TreeNode<TemplateWorkItemEntity, number>[] | undefined; 
 
@@ -73,7 +64,6 @@ export class CloneDialog extends React.Component<{}, ICloneDialogState> {
     SDK.init();
     SDK.ready().then(() => {
       const configuration = SDK.getConfiguration();
-      console.log(configuration);
       if (configuration.selectedWorkItemId) {
         // Mounting is loaded twice, so only load the rest if the ID is actually provided.
         this.selectedWorkItemId = configuration.selectedWorkItemId as number;        
@@ -107,15 +97,8 @@ export class CloneDialog extends React.Component<{}, ICloneDialogState> {
    * Processes the user's inputs in the initial screen
    */
   private async asyncProcessRequest():Promise<void> {
-
-    const cloneSettings = new CloneSettings();
-    cloneSettings.copyHierarchy = false;
-    cloneSettings.replaceText = this.replaceCheckbox.value;
-    cloneSettings.unassignAll = this.unassignCheckbox.value;
-    cloneSettings.replacements.set("##replace##", "Test 1");
-
     if (this.selectedWorkItem) {
-      TemplateWorkItemService.processItems(this.selectedWorkItem, cloneSettings);
+      TemplateWorkItemService.processItems(this.selectedWorkItem, this.cloneSettings);
     }
   }
 
@@ -153,21 +136,24 @@ export class CloneDialog extends React.Component<{}, ICloneDialogState> {
   }
 
   private generateReplacementUI(index:number): JSX.Element{
+    if(index >= this.cloneSettings.replacements.length) {
+      this.cloneSettings.replacements.push(new ReplacementBlock());
+    }
+    var replacement = this.cloneSettings.replacements[index];
     return(
       <div className='flex-row rhythm-horizontal-8 padding-vertical-8 margin-left-16 padding-left-16'>
             <FormItem className={index > 0?"hide-label":""} label="Find Text">
               <TextField
-                value={this.findObservable1.value}
-                onChange={(e, newValue) => (this.findObservable1.value = newValue, console.log(newValue))}
+                value={replacement.observableFindText}
+                onChange={(e, newValue) => (replacement.observableFindText.value = newValue)}
                 width={TextFieldWidth.auto}
               />
             </FormItem>
 
             <FormItem className={index > 0?"hide-label":""} label="Replace Text" >
               <TextField 
-                value={this.replaceObservable1.value}
-                onChange={(e, newValue) => (this.replaceObservable1.value = newValue)}
-                placeholder="Hello Peter"
+                value={replacement.observableReplaceText}
+                onChange={(e, newValue) => (replacement.observableReplaceText.value = newValue)}
                 width={TextFieldWidth.auto}
               />
             </FormItem>
@@ -183,6 +169,14 @@ export class CloneDialog extends React.Component<{}, ICloneDialogState> {
     return(
       widgets
     )
+  }
+
+  private eventUnassignCheckbox(event: React.MouseEvent<HTMLElement> | React.KeyboardEvent<HTMLElement>, checked: boolean): void {
+    this.cloneSettings.observableUnassignAll.value = checked;
+  }
+
+  private eventReplaceTextCheckbox(event: React.MouseEvent<HTMLElement> | React.KeyboardEvent<HTMLElement>, checked: boolean): void {
+    this.cloneSettings.observableReplaceText.value = checked;
   }
 
   /**
@@ -205,7 +199,8 @@ export class CloneDialog extends React.Component<{}, ICloneDialogState> {
           
           <div className="flex-row">
             <Checkbox
-              checked={this.replaceCheckbox}
+              onChange={this.eventReplaceTextCheckbox.bind(this)}
+              checked={this.cloneSettings.observableReplaceText}
               label="Replace Text"
             />
             <Button
@@ -218,8 +213,8 @@ export class CloneDialog extends React.Component<{}, ICloneDialogState> {
           
           <div className="flex-row">
             <Checkbox
-              onChange={(event, checked) => (this.unassignCheckbox.value = checked)}
-              checked={this.unassignCheckbox}
+              onChange={this.eventUnassignCheckbox.bind(this)}
+              checked={this.cloneSettings.observableUnassignAll}
               label="Unassign All"
             />
           </div>
