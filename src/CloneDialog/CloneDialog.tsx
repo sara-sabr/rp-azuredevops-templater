@@ -142,22 +142,22 @@ export class CloneDialog extends React.Component<{}, ICloneDialogState> {
     var replacement = this.cloneSettings.replacements[index];
     return(
       <div className='flex-row rhythm-horizontal-8 padding-vertical-8 margin-left-16 padding-left-16'>
-            <FormItem className={index > 0?"hide-label":""} label="Find Text">
-              <TextField
-                value={replacement.observableFindText}
-                onChange={(e, newValue) => (replacement.observableFindText.value = newValue)}
-                width={TextFieldWidth.auto}
-              />
-            </FormItem>
+        <FormItem className={index > 0?"hide-label":""} label="Find Text">
+          <TextField
+            value={replacement.observableFindText}
+            onChange={(e, newValue) => (replacement.observableFindText.value = newValue)}
+            width={TextFieldWidth.auto}
+          />
+        </FormItem>
 
-            <FormItem className={index > 0?"hide-label":""} label="Replace Text" >
-              <TextField 
-                value={replacement.observableReplaceText}
-                onChange={(e, newValue) => (replacement.observableReplaceText.value = newValue)}
-                width={TextFieldWidth.auto}
-              />
-            </FormItem>
-          </div>
+        <FormItem className={index > 0?"hide-label":""} label="Replace Text" >
+          <TextField 
+            value={replacement.observableReplaceText}
+            onChange={(e, newValue) => (replacement.observableReplaceText.value = newValue)}
+            width={TextFieldWidth.auto}
+          />
+        </FormItem>
+        </div>
     )
   }
 
@@ -204,6 +204,7 @@ export class CloneDialog extends React.Component<{}, ICloneDialogState> {
               label="Replace Text"
             />
             <Button
+              className={this.cloneSettings.replaceText()?"fadeOut":"fadeIn"}
               text="Add Replacement"
               onClick={this.incrementReplace.bind(this)}
             />
