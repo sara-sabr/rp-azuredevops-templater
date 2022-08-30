@@ -2,11 +2,11 @@
  * State storage
  */
 interface ICloneDialogState {
-    /**
-     * Current page number.
-     */
-    screenNumber:number;
-    progress:number;
-    message:string;
-    replaceItems:number;
+  /**
+   * Current page number.
+   */
+  screenNumber: number;
+  progress: number;
+  message: string;
+  replaceItems: number;
 }

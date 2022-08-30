@@ -16,12 +16,10 @@ div.hide-label label {
     margin-bottom: 0px;
 }
 
-div.fadeOut button{
-    visibility: hidden;
-    opacity: 0;
+button.fadeOut {
+    display: none;
 }
 
-div.fadeIn button{
-    visibility: visible;
-    opacity: 1;
+button.fadeIn {
+    display: inherit;
 }

@@ -15,7 +15,7 @@ SDK.register("Context-Add-Template", () => {
        * the parent item. All children items underneath the parent will be copied
        * without having to directly copy them as well.
        */
-      
+
       let selectionSize: number = context.workItemIds.length;
 
       if (selectionSize != 1) {
@@ -37,7 +37,7 @@ SDK.register("Context-Add-Template", () => {
               if (result !== undefined) {
               }
             },
-            configuration: {selectedWorkItemId: context.workItemIds[0]}
+            configuration: { selectedWorkItemId: context.workItemIds[0] },
           }
         );
       }
