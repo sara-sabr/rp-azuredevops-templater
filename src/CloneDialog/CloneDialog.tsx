@@ -310,7 +310,6 @@ export class CloneDialog extends React.Component<{}, ICloneDialogState> {
             text="Close"
             onClick={() => {
               this.dismiss(false);
-              window.location.reload(true);
             }}
           />
         </div>

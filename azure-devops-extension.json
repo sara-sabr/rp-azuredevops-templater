@@ -1,6 +1,6 @@
 {
   "manifestVersion": 1,
-  "version": "0.0.17",
+  "version": "0.1.0",
   "name": "AzBoards Templater",
   "description": "Adding an extension that enables the user to copy work items/trees",
   "publisher": "ESDC-IT-SABR-RP",
