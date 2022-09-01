@@ -9,7 +9,6 @@ import * as SDK from "azure-devops-extension-sdk";
 import { Button } from "azure-devops-ui/Button";
 import { ButtonGroup } from "azure-devops-ui/ButtonGroup";
 
-import { ObservableValue } from "azure-devops-ui/Core/Observable";
 import { Checkbox } from "azure-devops-ui/Checkbox";
 
 import { TextField, TextFieldWidth } from "azure-devops-ui/TextField";
@@ -22,11 +21,6 @@ import { CloneSettings } from "./CloneSetting";
 import { TreeNode } from "@esdc-it-rp/azuredevops-common";
 import { WorkItem } from "azure-devops-extension-api/WorkItemTracking";
 import { ReplacementBlock } from "./ReplacementBlock";
-
-/**
- * Following variables that are associated with the various checkboxes
- * and text boxes in the design.
- */
 
 export class CloneDialog extends React.Component<{}, ICloneDialogState> {
   private cloneSettings = new CloneSettings();
@@ -66,7 +60,7 @@ export class CloneDialog extends React.Component<{}, ICloneDialogState> {
   }
 
   /**
-   * Initializes
+   * Initializes the rendering screens
    */
   public componentDidMount() {
     SDK.init();
@@ -202,8 +196,8 @@ export class CloneDialog extends React.Component<{}, ICloneDialogState> {
   /**
    * Assigns true of false to Unassign All
    *
-   * @param event
-   * @param checked
+   * @param event User input or interaction with the component
+   * @param checked The boolean value of the clone setting
    */
   private eventUnassignCheckbox(
     event: React.MouseEvent<HTMLElement> | React.KeyboardEvent<HTMLElement>,
@@ -215,8 +209,8 @@ export class CloneDialog extends React.Component<{}, ICloneDialogState> {
   /**
    * Assigns boolean value to Replace Text
    *
-   * @param event
-   * @param checked
+   * @param event User input or interaction with the component
+   * @param checked The boolean value of the clone setting
    */
   private eventReplaceTextCheckbox(
     event: React.MouseEvent<HTMLElement> | React.KeyboardEvent<HTMLElement>,
@@ -229,7 +223,7 @@ export class CloneDialog extends React.Component<{}, ICloneDialogState> {
   /**
    * Initial screen - Selection
    *
-   * @returns JSX.element
+   * @returns JSX.element The initial clone settings screen
    */
   public renderScreenInitial(): JSX.Element {
     return (
@@ -288,7 +282,7 @@ export class CloneDialog extends React.Component<{}, ICloneDialogState> {
   /**
    * Progress screen to be displayed
    *
-   * @returns JSX.element, progress screen and the progress bar
+   * @returns JSX.element progress screen and the progress bar
    */
   public renderScreenProgress(): JSX.Element {
     return (
@@ -320,7 +314,7 @@ export class CloneDialog extends React.Component<{}, ICloneDialogState> {
   /**
    * Render function to display the panel and transition the screens
    *
-   * @returns JSX.Element, the screens to be displayed
+   * @returns JSX.Element the screens to be displayed
    */
   public render(): JSX.Element {
     return (
@@ -331,6 +325,11 @@ export class CloneDialog extends React.Component<{}, ICloneDialogState> {
     );
   }
 
+  /**
+   * Closes the current panel
+   * 
+   * @param useValue boolean value but currently used at the moment
+   */
   private dismiss(useValue: boolean) {
     const config = SDK.getConfiguration();
     if (config.dialog) {

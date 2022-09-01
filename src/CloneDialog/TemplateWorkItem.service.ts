@@ -89,7 +89,7 @@ export class TemplateWorkItemService {
    * From the selected work item, create a copy of the work tree
    *
    * @param item work item to be processed
-   * @param cloneSettings copying parametres (Repace Text and/or Unassign All)
+   * @param cloneSettings copying parametres (Replace Text and/or Unassign All)
    */
   static async processItems(
     items: TreeNode<TemplateWorkItemEntity, number>[],

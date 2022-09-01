@@ -31,5 +31,9 @@ export class CloneSettings {
   unassignAll(): boolean {
     return this.observableUnassignAll.value;
   }
+
+  /**
+   * Array of all text replacement blocks
+   */
   replacements: ReplacementBlock[] = [];
 }
