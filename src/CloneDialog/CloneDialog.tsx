@@ -302,9 +302,8 @@ export class CloneDialog extends React.Component<{}, ICloneDialogState> {
           <Button
             primary={true}
             text="Close"
-            onClick={() => {
-              this.dismiss(false);
-            }}
+            onClick={this.refresh
+            }
           />
         </div>
       </div>
@@ -332,12 +331,24 @@ export class CloneDialog extends React.Component<{}, ICloneDialogState> {
    */
   private dismiss(useValue: boolean) {
     const config = SDK.getConfiguration();
+    console.log(config);
     if (config.dialog) {
       config.dialog.close(true);
     } else if (config.panel) {
       config.panel.close(true);
     }
   }
+
+  /**
+   * Closes the current panel
+   * 
+   * @param useValue boolean value but currently used at the moment
+   */
+   private refresh() {
+    opener.location.reload();
+  }
 }
+
+
 
 ReactDOM.render(<CloneDialog />, document.getElementById("root"));
