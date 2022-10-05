@@ -3,8 +3,8 @@ import "./iconFont.css";
 import "./CloneDialog.scss";
 
 import * as React from "react";
-import * as ReactDOM from "react-dom";
 import * as SDK from "azure-devops-extension-sdk";
+import { showRootComponent } from "../Common";
 
 import { Button } from "azure-devops-ui/Button";
 import { ButtonGroup } from "azure-devops-ui/ButtonGroup";
@@ -299,12 +299,7 @@ export class CloneDialog extends React.Component<{}, ICloneDialogState> {
           className="padding-top-16 separator-line-top absolute full-width"
           style={{ bottom: 20 }}
         >
-          <Button
-            primary={true}
-            text="Close"
-            onClick={this.refresh
-            }
-          />
+          <Button primary={true} text="Close" onClick={this.refresh} />
         </div>
       </div>
     );
@@ -326,7 +321,7 @@ export class CloneDialog extends React.Component<{}, ICloneDialogState> {
 
   /**
    * Closes the current panel
-   * 
+   *
    * @param useValue boolean value but currently used at the moment
    */
   private dismiss(useValue: boolean) {
@@ -341,14 +336,13 @@ export class CloneDialog extends React.Component<{}, ICloneDialogState> {
 
   /**
    * Closes the current panel
-   * 
    * @param useValue boolean value but currently used at the moment
    */
-   private refresh() {
+  private refresh() {
     opener.location.reload();
   }
 }
 
-
-
-ReactDOM.render(<CloneDialog />, document.getElementById("root"));
+export default CloneDialog;
+showRootComponent(<CloneDialog />);
+//ReactDOM.render(<CloneDialog />, document.getElementById("root"));
