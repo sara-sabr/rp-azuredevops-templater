@@ -3,6 +3,7 @@
     "module": "amd",
     "moduleResolution": "node",
     "esModuleInterop": true,
+    "experimentalDecorators": true,
     "noImplicitAny": true,
     "noImplicitThis": true,
     "forceConsistentCasingInFileNames": true,
@@ -11,8 +12,9 @@
     "rootDir": "src/",
     "outDir": "dist/",
     "jsx": "react",
-    "lib": ["es6", "dom"],
-    "types": ["react", "jest"]
+    "lib": ["es5", "es6", "dom", "es2015.promise"],
+    "types": ["react", "jest",
+      "node"]
   },
   "exclude": ["node_modules", "typings"]
 }

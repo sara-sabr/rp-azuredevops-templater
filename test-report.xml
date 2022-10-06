@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <testsuites>
-  <testsuite id="0" name="C:\git\rp-azuredevops-ContextExtension\src\Tests\TemplateWorkItem.test.tsx" errors="0" package="C:\git\rp-azuredevops-ContextExtension\src\Tests\TemplateWorkItem.test.tsx" hostname="localhost" tests="1" failures="0" time="1.278" timestamp="2022-10-05T19:00:34">
+  <testsuite id="0" name="C:\git\rp-azuredevops-ContextExtension\src\Tests\TemplateWorkItem.test.tsx" errors="0" package="C:\git\rp-azuredevops-ContextExtension\src\Tests\TemplateWorkItem.test.tsx" hostname="localhost" tests="1" failures="0" time="1.18" timestamp="2022-10-06T17:31:36">
     <properties>
     </properties>
     <testcase classname="TemplateWorkItem" name="TemplateWorkItem.service - initial test" time="0">
