@@ -3,8 +3,6 @@
 [![Development](https://github.com/sara-sabr/TreePlanting/actions/workflows/development.yml/badge.svg)](https://github.com/sara-sabr/TreePlanting/actions/workflows/development.yml)
 [![Production](https://github.com/sara-sabr/rp-azuredevops-reports/actions/workflows/production.yml/badge.svg)](https://github.com/sara-sabr/TreePlanting/actions/workflows/production.yml)
 
-This Azure Boards extension provides canned reporting capability for an Azure Project.
-
 ## End User Project Configuration Requirements
 
 ## Developer Prerequisites
