@@ -53,18 +53,10 @@ Once your ready to test, perform the following:
 3. Open Firefox
 4. Ensure you have installed your extension for your organization.
 5. Browse to the project/organzation.
-<<<<<<< HEAD
-6. In your organization you must create a Query with the following settings then save: !/rp-azuredevops-templater/blob/main/documentation/QuerySettings.png
-7. Create a Folder in Shared Queries, called "Automation," then move the saved query into the newly created folder: https://github.com/sara-sabr/rp-azuredevops-templater/blob/main/documentation/QueryLocation.png
-=======
 6. In your organization you must create a Query with the following settings: ![Query Settings](https://github.com/sara-sabr/rp-azuredevops-templater/blob/main/documentation/QuerySettings.png?raw=true)
 7. In the same Query, change the Column settings by adding Parent: ![Column Settings](https://github.com/sara-sabr/rp-azuredevops-templater/blob/main/documentation/QueryColumnSettings.png?raw=true)
 8. Create a Folder in Shared Queries, called "Automation," then move the saved query into the newly created folder:
 ![Query Location](https://github.com/sara-sabr/rp-azuredevops-templater/blob/main/documentation/QueryLocation.png?raw=true)
->>>>>>> 275851226f6addb707ce03a07054127545b3c186
-
-
-
 
 ### Publishing Production
 
