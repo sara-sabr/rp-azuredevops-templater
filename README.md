@@ -44,7 +44,7 @@ npm install
 2. Update ```azure-devops-extension.json``` with any changes needed not tied to "contributions"
 3. For each contributions, you can use ```src/Template``` as an example. Do rename all "Template" including the file names to what you need. 
 
-Once your ready to test, perform the following:
+Once you're ready to test, perform the following:
 
 1. Publish the package to the marketplace. You will be prompted for your PAT.
    ```npm run publish:dev```.
@@ -52,7 +52,7 @@ Once your ready to test, perform the following:
    ```npm run start:dev```
 3. Open Firefox
 4. Ensure you have installed your extension for your organization.
-5. Browse to the project/organzation.
+5. Browse to the project/organization.
 6. In your organization you must create a Query with the following settings: ![Query Settings](https://github.com/sara-sabr/rp-azuredevops-templater/blob/main/documentation/QuerySettings.png?raw=true)
 7. In the same Query, change the Column settings by adding Parent: ![Column Settings](https://github.com/sara-sabr/rp-azuredevops-templater/blob/main/documentation/QueryColumnSettings.png?raw=true)
 8. Create a Folder in Shared Queries, called "Automation," then move the saved query into the newly created folder:
