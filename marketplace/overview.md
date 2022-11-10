@@ -1,4 +1,4 @@
-# Azure Boards - IT Research and Prototyping - ContextExtension
+# Azure Boards - IT Research and Prototyping - Templater
 
 > THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
 > IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
