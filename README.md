@@ -3,8 +3,6 @@
 [![Development](https://github.com/sara-sabr/TreePlanting/actions/workflows/development.yml/badge.svg)](https://github.com/sara-sabr/TreePlanting/actions/workflows/development.yml)
 [![Production](https://github.com/sara-sabr/rp-azuredevops-reports/actions/workflows/production.yml/badge.svg)](https://github.com/sara-sabr/TreePlanting/actions/workflows/production.yml)
 
-This Azure Boards extension provides canned reporting capability for an Azure Project.
-
 ## End User Project Configuration Requirements
 
 ## Developer Prerequisites
@@ -15,12 +13,6 @@ Download and install the following tools
 2. [Firefox](https://www.mozilla.org/firefox/) (because the VS Code Debugger for Chrome extension [doesn't support iframes](https://github.com/microsoft/vscode-chrome-debug/issues/786) yet)
 3. [Node LTS](https://nodejs.org/en/download/) (make sure its Node LTS - tested with Node 16)
 4. The [Debugger for Firefox](https://marketplace.visualstudio.com/items?itemName=hbenl.vscode-firefox-debug) VS Code extension
-5. The [tfx-cli](https://www.npmjs.com/package/tfx-cli) npm package
-6. The [webpack](https://www.npmjs.com/package/webpack) npm package
-7. The [webpack-dev-server](https://www.npmjs.com/package/webpack-dev-server) npm package
-8. The [progress-bar](https://www.npmjs.com/package/@ramonak/react-progress-bar) npm package
-
-> If you would prefer not to install the npm packages globally, you can add them to devDependencies in your `package.json` file and invoke them with scripts. You can use the [package.json](./package.json) in this repo as a template for scripts and to ensure you have the correct versions of packages in your extension.
 
 ## Instructions
 
@@ -46,7 +38,7 @@ npm install
 2. Update ```azure-devops-extension.json``` with any changes needed not tied to "contributions"
 3. For each contributions, you can use ```src/Template``` as an example. Do rename all "Template" including the file names to what you need. 
 
-Once your ready to test, perform the following:
+Once you're ready to test, perform the following:
 
 1. Publish the package to the marketplace. You will be prompted for your PAT.
    ```npm run publish:dev```.
@@ -54,19 +46,11 @@ Once your ready to test, perform the following:
    ```npm run start:dev```
 3. Open Firefox
 4. Ensure you have installed your extension for your organization.
-5. Browse to the project/organzation.
-<<<<<<< HEAD
-6. In your organization you must create a Query with the following settings then save: !/rp-azuredevops-templater/blob/main/documentation/QuerySettings.png
-7. Create a Folder in Shared Queries, called "Automation," then move the saved query into the newly created folder: https://github.com/sara-sabr/rp-azuredevops-templater/blob/main/documentation/QueryLocation.png
-=======
+5. Browse to the project/organization.
 6. In your organization you must create a Query with the following settings: ![Query Settings](https://github.com/sara-sabr/rp-azuredevops-templater/blob/main/documentation/QuerySettings.png?raw=true)
 7. In the same Query, change the Column settings by adding Parent: ![Column Settings](https://github.com/sara-sabr/rp-azuredevops-templater/blob/main/documentation/QueryColumnSettings.png?raw=true)
 8. Create a Folder in Shared Queries, called "Automation," then move the saved query into the newly created folder:
 ![Query Location](https://github.com/sara-sabr/rp-azuredevops-templater/blob/main/documentation/QueryLocation.png?raw=true)
->>>>>>> 275851226f6addb707ce03a07054127545b3c186
-
-
-
 
 ### Publishing Production
 
